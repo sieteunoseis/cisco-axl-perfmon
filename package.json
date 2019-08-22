@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/sieteunoseis/cisco-axl-rest/issues"
   },
-  "homepage": "https://github.com/sieteunoseis/cisco-axl-rest#readme"
+  "homepage": "https://github.com/sieteunoseis/cisco-axl-rest#readme",
+  "dependencies": {
+    "https": "^1.0.0",
+    "util": "^0.12.1",
+    "xml2js": "^0.4.19"
+  }
 }
