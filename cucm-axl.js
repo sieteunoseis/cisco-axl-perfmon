@@ -1252,7 +1252,7 @@ CucmSQLSession.prototype.addTranslationPatterns = function(jsonDATA, callback) {
 	(!jsonDATA.routeclass ? '' : '<routeclass>' + jsonDATA.routeclass + '</routeclass>') +
 	(!jsonDATA.routenexthopbycallingpartynumber ? '' : '<routenexthopbycgpn>' + jsonDATA.routenexthopbycallingpartynumber + '</routenexthopbycgpn>') +
 	(!jsonDATA.externalcallcontrolprofile ? '' : '<callinterceptprofilename>' + jsonDATA.externalcallcontrolprofile + '</callinterceptprofilename>') +
-	(!jsonDATA.useoriginator'scallingsearchspace ? '' : '<useoriginatorcss>' + jsonDATA.useoriginator'scallingsearchspace + '</useoriginatorcss>') +
+	(!jsonDATA.useoriginatorscallingsearchspace ? '' : '<useoriginatorcss>' + jsonDATA.useoriginatorscallingsearchspace + '</useoriginatorcss>') +
 	(!jsonDATA.donotwaitforinterdigittimeoutonsubsequenthops ? '' : '<dontwaitforidtonsubsequenthops>' + jsonDATA.donotwaitforinterdigittimeoutonsubsequenthops + '</dontwaitforidtonsubsequenthops>') +
 	(!jsonDATA.usecallingpartyphonemask ? '' : '<usecallingpartyphonemask>' + jsonDATA.usecallingpartyphonemask + '</usecallingpartyphonemask>'))
 		
