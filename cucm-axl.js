@@ -1212,7 +1212,7 @@ CucmSQLSession.prototype.addSipTrunk = function(jsonDATA, callback) {
 	req.end(soapBody);
 };
 
-CucmSQLSession.prototype.addTranslationPatterns = function(jsonDATA, callback) {
+CucmSQLSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '">\
 		<soapenv:Header/>\
 		<soapenv:Body>\
