@@ -84,8 +84,8 @@ CucmSQLSession.prototype.addPhone = function(jsonDATA, callback) {
 	(!jsonDATA.geolocation ? '' : '<geoLocationName>'+jsonDATA.geolocation+'</geoLocationName>') +
 	'<aarNeighborhoodName>'+jsonDATA.aargroup+'</aarNeighborhoodName>' +
 	'<phoneTemplateName>'+jsonDATA.phonebuttontemplate+'</phoneTemplateName>' +
-	'<userLocale>'+jsonDATA.deviceuserlocale+'</userLocale>' +
-	'<networkLocale>'+jsonDATA.networklocale+'</networkLocale>' +
+	(!jsonDATA.deviceuserlocale ? '' : '<userLocale>'+jsonDATA.deviceuserlocale+'</userLocale>') +
+	(!jsonDATA.networklocale ? '' : '<networkLocale>'+jsonDATA.networklocale+'</networkLocale>') +
 	'<idleTimeout>'+jsonDATA.idletimer+'</idleTimeout>' +
 	(!jsonDATA.authenticationserver ? '' : '<authenticationUrl>'+jsonDATA.authenticationserver+'</authenticationUrl>') +
 	(!jsonDATA.directory ? '' : '<directoryUrl>'+jsonDATA.directory+'</directoryUrl>') +
