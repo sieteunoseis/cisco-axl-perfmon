@@ -1222,7 +1222,7 @@ CucmSQLSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 		</soapenv:Body>\
 		</soapenv:Envelope>'
 	
-	var XML_BODY = ((!jsonDATA.translationpattern ? '' : '<pattern>' + jsonDATA.translationpattern + '</pattern>') +
+	var XML_BODY = (!jsonDATA.translationpattern ? '' : '<pattern>' + jsonDATA.translationpattern + '</pattern>') +
 	(!jsonDATA.routepartition ? '' : '<routepartitionname>' + jsonDATA.routepartition + '</routepartitionname>') +
 	'<usage>Translation</usage>' +
 	(!jsonDATA.description ? '' : '<description>' + jsonDATA.description + '</description>') +
@@ -1241,7 +1241,7 @@ CucmSQLSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 	(!jsonDATA.connectednamepresentation ? '' : '<connectednamepresentationbit>' + jsonDATA.connectednamepresentation + '</connectednamepresentationbit>') +
 	(!jsonDATA.discarddigits ? '' : '<digitdiscardinstructionname>' + jsonDATA.discarddigits + '</digitdiscardinstructionname>') +
 	(!jsonDATA.calledpartytransformmask ? '' : '<calledpartytransformmask>' + jsonDATA.calledpartytransformmask + '</calledpartytransformmask>') +
-	(!jsonDATA.calledpartyprefixdigitsoutgoingcalls ? '' : '<prefixdigitsout>' + jsonDATA.calledpartyprefixdigits(outgoingcalls + '</prefixdigitsout>') +
+	(!jsonDATA.calledpartyprefixdigitsoutgoingcalls ? '' : '<prefixdigitsout>' + jsonDATA.calledpartyprefixdigitsoutgoingcalls + '</prefixdigitsout>') +
 	(!jsonDATA.blockthispatternoption ? '' : '<releaseclause>' + jsonDATA.blockthispatternoption + '</releaseclause>') +
 	(!jsonDATA.callingpartyienumbertype ? '' : '<callingpartynumbertype>' + jsonDATA.callingpartyienumbertype + '</callingpartynumbertype>') +
 	(!jsonDATA.callingpartynumberingplan ? '' : '<callingpartynumberingplan>' + jsonDATA.callingpartynumberingplan + '</callingpartynumberingplan>') +
@@ -1254,7 +1254,8 @@ CucmSQLSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 	(!jsonDATA.externalcallcontrolprofile ? '' : '<callinterceptprofilename>' + jsonDATA.externalcallcontrolprofile + '</callinterceptprofilename>') +
 	(!jsonDATA.useoriginatorscallingsearchspace ? '' : '<useoriginatorcss>' + jsonDATA.useoriginatorscallingsearchspace + '</useoriginatorcss>') +
 	(!jsonDATA.donotwaitforinterdigittimeoutonsubsequenthops ? '' : '<dontwaitforidtonsubsequenthops>' + jsonDATA.donotwaitforinterdigittimeoutonsubsequenthops + '</dontwaitforidtonsubsequenthops>') +
-	(!jsonDATA.usecallingpartyphonemask ? '' : '<usecallingpartyphonemask>' + jsonDATA.usecallingpartyphonemask + '</usecallingpartyphonemask>'))
+	(!jsonDATA.usecallingpartyphonemask ? '' : '<usecallingpartyphonemask>' + jsonDATA.usecallingpartyphonemask + '</usecallingpartyphonemask>')
+	
 		
 		
 	// FIND undefined VALUES		
