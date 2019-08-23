@@ -3,7 +3,9 @@ var https = require("https");
 var parseString = require('xml2js').parseString;
 
 // Excel Formula to create XML
-//=CONCATENATE("(!jsonDATA.",LOWER(A1)," ? '' : '<",A1,">' + jsonDATA.",LOWER(A1)," + '</",A1,">') +")
+// JSON name in A1
+// XML tab in B1
+//=CONCATENATE("(!jsonDATA.",SUBSTITUTE(LOWER(A1)," ","")," ? '' : '<",SUBSTITUTE(LOWER(B1)," ",""),">' + jsonDATA.",SUBSTITUTE(LOWER(A1)," ","")," + '</",SUBSTITUTE(LOWER(B1)," ",""),">') +")
 
 function CucmSQLSession(cucmVersion, cucmServerUrl, cucmUser, cucmPassword) {
 	this._version = {version:cucmVersion},
@@ -1063,7 +1065,7 @@ CucmSQLSession.prototype.addFacInfo = function(jsonDATA, callback) {
 };
 
 CucmSQLSession.prototype.addSipTrunk = function(jsonDATA, callback) {
-	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/12.0">\
+	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '">\
 		<soapenv:Header/>\
 		<soapenv:Body>\
 			<ns:addSipTrunk>\
@@ -1182,13 +1184,96 @@ CucmSQLSession.prototype.addSipTrunk = function(jsonDATA, callback) {
 	XML_BODY = XML_BODY.replace(re, '');
 		
 	var XML = util.format(XML_ENVELOPE, XML_BODY);
-	console.log(XML)
 	var soapBody = Buffer.from(XML);
 	var output = "";
 	var options = this._OPTIONS;
 	options.agent = new https.Agent({ keepAlive: false });
 	
 	options.headers.SOAPAction += ' addSipTrunk'
+	
+	var req = https.request(options, function(res) {
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
+					try {
+						callback(null, result['soapenv:Body']);  
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			}
+		});
+		req.on('error', function(e) {
+			callback(e);
+		});
+	});
+	req.end(soapBody);
+};
+
+CucmSQLSession.prototype.addTranslationPatterns = function(jsonDATA, callback) {
+	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '">\
+		<soapenv:Header/>\
+		<soapenv:Body>\
+			<ns:addTransPattern>\
+				<transPattern>%s</transPattern>\
+			</ns:addTransPattern>\
+		</soapenv:Body>\
+		</soapenv:Envelope>'
+	
+	var XML_BODY = ((!jsonDATA.translationpattern ? '' : '<pattern>' + jsonDATA.translationpattern + '</pattern>') +
+	(!jsonDATA.routepartition ? '' : '<routepartitionname>' + jsonDATA.routepartition + '</routepartitionname>') +
+	'<usage>Translation</usage>' +
+	(!jsonDATA.description ? '' : '<description>' + jsonDATA.description + '</description>') +
+	(!jsonDATA.numberingplan ? '' : '<dialplanname>' + jsonDATA.numberingplan + '</dialplanname>') +
+	(!jsonDATA.routefilter ? '' : '<routefiltername>' + jsonDATA.routefilter + '</routefiltername>') +
+	(!jsonDATA.mlppprecedence ? '' : '<patternprecedence>' + jsonDATA.mlppprecedence + '</patternprecedence>') +
+	(!jsonDATA.callingsearchspace ? '' : '<callingsearchspacename>' + jsonDATA.callingsearchspace + '</callingsearchspacename>') +
+	(!jsonDATA.routeoption ? '' : '<blockenabled>' + jsonDATA.routeoption + '</blockenabled>') +
+	(!jsonDATA.outsidedialtone ? '' : '<provideoutsidedialtone>' + jsonDATA.outsidedialtone + '</provideoutsidedialtone>') +
+	(!jsonDATA.urgentpriority ? '' : '<patternurgency>' + jsonDATA.urgentpriority + '</patternurgency>') +
+	(!jsonDATA.callingpartytransformationmask ? '' : '<callingpartytransformationmask>' + jsonDATA.callingpartytransformationmask + '</callingpartytransformationmask>') +
+	(!jsonDATA.callingpartyprefixdigits(outgoingcalls) ? '' : '<callingpartyprefixdigits>' + jsonDATA.callingpartyprefixdigits(outgoingcalls) + '</callingpartyprefixdigits>') +
+	(!jsonDATA.callinglineidpresentation ? '' : '<callinglinepresentationbit>' + jsonDATA.callinglineidpresentation + '</callinglinepresentationbit>') +
+	(!jsonDATA.callingnamepresentation ? '' : '<callingnamepresentationbit>' + jsonDATA.callingnamepresentation + '</callingnamepresentationbit>') +
+	(!jsonDATA.connectedlineidpresentation ? '' : '<connectedlinepresentationbit>' + jsonDATA.connectedlineidpresentation + '</connectedlinepresentationbit>') +
+	(!jsonDATA.connectednamepresentation ? '' : '<connectednamepresentationbit>' + jsonDATA.connectednamepresentation + '</connectednamepresentationbit>') +
+	(!jsonDATA.discarddigits ? '' : '<digitdiscardinstructionname>' + jsonDATA.discarddigits + '</digitdiscardinstructionname>') +
+	(!jsonDATA.calledpartytransformmask ? '' : '<calledpartytransformmask>' + jsonDATA.calledpartytransformmask + '</calledpartytransformmask>') +
+	(!jsonDATA.calledpartyprefixdigits(outgoingcalls) ? '' : '<prefixdigitsout>' + jsonDATA.calledpartyprefixdigits(outgoingcalls) + '</prefixdigitsout>') +
+	(!jsonDATA.blockthispatternoption ? '' : '<releaseclause>' + jsonDATA.blockthispatternoption + '</releaseclause>') +
+	(!jsonDATA.callingpartyienumbertype ? '' : '<callingpartynumbertype>' + jsonDATA.callingpartyienumbertype + '</callingpartynumbertype>') +
+	(!jsonDATA.callingpartynumberingplan ? '' : '<callingpartynumberingplan>' + jsonDATA.callingpartynumberingplan + '</callingpartynumberingplan>') +
+	(!jsonDATA.calledpartyienumbertype ? '' : '<calledpartynumbertype>' + jsonDATA.calledpartyienumbertype + '</calledpartynumbertype>') +
+	(!jsonDATA.calledpartynumberingplan ? '' : '<calledpartynumberingplan>' + jsonDATA.calledpartynumberingplan + '</calledpartynumberingplan>') +
+	(!jsonDATA.usecallingpartysexternalphonenumbermask ? '' : '<usecallingpartyphonemask>' + jsonDATA.usecallingpartysexternalphonenumbermask + '</usecallingpartyphonemask>') +
+	(!jsonDATA.resourceprioritynamespacenetworkdomain ? '' : '<resourceprioritynamespacename>' + jsonDATA.resourceprioritynamespacenetworkdomain + '</resourceprioritynamespacename>') +
+	(!jsonDATA.routeclass ? '' : '<routeclass>' + jsonDATA.routeclass + '</routeclass>') +
+	(!jsonDATA.routenexthopbycallingpartynumber ? '' : '<routenexthopbycgpn>' + jsonDATA.routenexthopbycallingpartynumber + '</routenexthopbycgpn>') +
+	(!jsonDATA.externalcallcontrolprofile ? '' : '<callinterceptprofilename>' + jsonDATA.externalcallcontrolprofile + '</callinterceptprofilename>') +
+	(!jsonDATA.useoriginator'scallingsearchspace ? '' : '<useoriginatorcss>' + jsonDATA.useoriginator'scallingsearchspace + '</useoriginatorcss>') +
+	(!jsonDATA.donotwaitforinterdigittimeoutonsubsequenthops ? '' : '<dontwaitforidtonsubsequenthops>' + jsonDATA.donotwaitforinterdigittimeoutonsubsequenthops + '</dontwaitforidtonsubsequenthops>') +
+	(!jsonDATA.usecallingpartyphonemask ? '' : '<usecallingpartyphonemask>' + jsonDATA.usecallingpartyphonemask + '</usecallingpartyphonemask>'))
+		
+		
+	// FIND undefined VALUES		
+	var find = 'undefined';
+	var re = new RegExp(find, 'g');
+	XML_BODY = XML_BODY.replace(re, '');
+	
+	// Find NULL VALUES
+	var findNULL = 'NULL';
+	re = new RegExp(findNULL, 'g');
+	XML_BODY = XML_BODY.replace(re, '');
+		
+	var XML = util.format(XML_ENVELOPE, XML_BODY);
+	var soapBody = Buffer.from(XML);
+	var output = "";
+	var options = this._OPTIONS;
+	options.agent = new https.Agent({ keepAlive: false });
+	
+	options.headers.SOAPAction += ' addTransPattern'
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
