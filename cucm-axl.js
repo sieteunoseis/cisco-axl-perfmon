@@ -1234,14 +1234,14 @@ CucmSQLSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 	(!jsonDATA.outsidedialtone ? '' : '<provideoutsidedialtone>' + jsonDATA.outsidedialtone + '</provideoutsidedialtone>') +
 	(!jsonDATA.urgentpriority ? '' : '<patternurgency>' + jsonDATA.urgentpriority + '</patternurgency>') +
 	(!jsonDATA.callingpartytransformationmask ? '' : '<callingpartytransformationmask>' + jsonDATA.callingpartytransformationmask + '</callingpartytransformationmask>') +
-	(!jsonDATA.callingpartyprefixdigits(outgoingcalls) ? '' : '<callingpartyprefixdigits>' + jsonDATA.callingpartyprefixdigits(outgoingcalls) + '</callingpartyprefixdigits>') +
+	(!jsonDATA.callingpartyprefixdigitsoutgoingcalls ? '' : '<callingpartyprefixdigits>' + jsonDATA.callingpartyprefixdigitsoutgoingcalls + '</callingpartyprefixdigits>') +
 	(!jsonDATA.callinglineidpresentation ? '' : '<callinglinepresentationbit>' + jsonDATA.callinglineidpresentation + '</callinglinepresentationbit>') +
 	(!jsonDATA.callingnamepresentation ? '' : '<callingnamepresentationbit>' + jsonDATA.callingnamepresentation + '</callingnamepresentationbit>') +
 	(!jsonDATA.connectedlineidpresentation ? '' : '<connectedlinepresentationbit>' + jsonDATA.connectedlineidpresentation + '</connectedlinepresentationbit>') +
 	(!jsonDATA.connectednamepresentation ? '' : '<connectednamepresentationbit>' + jsonDATA.connectednamepresentation + '</connectednamepresentationbit>') +
 	(!jsonDATA.discarddigits ? '' : '<digitdiscardinstructionname>' + jsonDATA.discarddigits + '</digitdiscardinstructionname>') +
 	(!jsonDATA.calledpartytransformmask ? '' : '<calledpartytransformmask>' + jsonDATA.calledpartytransformmask + '</calledpartytransformmask>') +
-	(!jsonDATA.calledpartyprefixdigits(outgoingcalls) ? '' : '<prefixdigitsout>' + jsonDATA.calledpartyprefixdigits(outgoingcalls) + '</prefixdigitsout>') +
+	(!jsonDATA.calledpartyprefixdigitsoutgoingcalls ? '' : '<prefixdigitsout>' + jsonDATA.calledpartyprefixdigits(outgoingcalls + '</prefixdigitsout>') +
 	(!jsonDATA.blockthispatternoption ? '' : '<releaseclause>' + jsonDATA.blockthispatternoption + '</releaseclause>') +
 	(!jsonDATA.callingpartyienumbertype ? '' : '<callingpartynumbertype>' + jsonDATA.callingpartyienumbertype + '</callingpartynumbertype>') +
 	(!jsonDATA.callingpartynumberingplan ? '' : '<callingpartynumberingplan>' + jsonDATA.callingpartynumberingplan + '</callingpartynumberingplan>') +
