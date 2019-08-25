@@ -1226,35 +1226,34 @@ CucmSQLSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 	(!jsonDATA.routepartition ? '' : '<routePartitionName>' + jsonDATA.routepartition + '</routePartitionName>') +
 	'<usage>Translation</usage>' +
 	(!jsonDATA.description ? '' : '<description>' + jsonDATA.description + '</description>') +
-	(!jsonDATA.numberingplan ? '' : '<dialplanname>' + jsonDATA.numberingplan + '</dialplanname>') +
+	(!jsonDATA.numberingplan ? '' : '<dialPlanName>' + jsonDATA.numberingplan + '</dialPlanName>') +
 	(!jsonDATA.routefilter ? '' : '<routefiltername>' + jsonDATA.routefilter + '</routefiltername>') +
-	(!jsonDATA.mlppprecedence ? '' : '<patternprecedence>' + jsonDATA.mlppprecedence + '</patternprecedence>') +
-	(!jsonDATA.callingsearchspace ? '' : '<callingsearchspacename>' + jsonDATA.callingsearchspace + '</callingsearchspacename>') +
-	(!jsonDATA.routeoption ? '' : '<blockenabled>' + jsonDATA.routeoption + '</blockenabled>') +
-	(!jsonDATA.outsidedialtone ? '' : '<provideoutsidedialtone>' + jsonDATA.outsidedialtone + '</provideoutsidedialtone>') +
-	(!jsonDATA.urgentpriority ? '' : '<patternurgency>' + jsonDATA.urgentpriority + '</patternurgency>') +
-	(!jsonDATA.callingpartytransformationmask ? '' : '<callingpartytransformationmask>' + jsonDATA.callingpartytransformationmask + '</callingpartytransformationmask>') +
-	(!jsonDATA.callingpartyprefixdigitsoutgoingcalls ? '' : '<callingpartyprefixdigits>' + jsonDATA.callingpartyprefixdigitsoutgoingcalls + '</callingpartyprefixdigits>') +
-	(!jsonDATA.callinglineidpresentation ? '' : '<callinglinepresentationbit>' + jsonDATA.callinglineidpresentation + '</callinglinepresentationbit>') +
-	(!jsonDATA.callingnamepresentation ? '' : '<callingnamepresentationbit>' + jsonDATA.callingnamepresentation + '</callingnamepresentationbit>') +
-	(!jsonDATA.connectedlineidpresentation ? '' : '<connectedlinepresentationbit>' + jsonDATA.connectedlineidpresentation + '</connectedlinepresentationbit>') +
-	(!jsonDATA.connectednamepresentation ? '' : '<connectednamepresentationbit>' + jsonDATA.connectednamepresentation + '</connectednamepresentationbit>') +
-	(!jsonDATA.discarddigits ? '' : '<digitdiscardinstructionname>' + jsonDATA.discarddigits + '</digitdiscardinstructionname>') +
-	(!jsonDATA.calledpartytransformmask ? '' : '<calledpartytransformmask>' + jsonDATA.calledpartytransformmask + '</calledpartytransformmask>') +
-	(!jsonDATA.calledpartyprefixdigitsoutgoingcalls ? '' : '<prefixdigitsout>' + jsonDATA.calledpartyprefixdigitsoutgoingcalls + '</prefixdigitsout>') +
-	(!jsonDATA.blockthispatternoption ? '' : '<releaseclause>' + jsonDATA.blockthispatternoption + '</releaseclause>') +
-	(!jsonDATA.callingpartyienumbertype ? '' : '<callingpartynumbertype>' + jsonDATA.callingpartyienumbertype + '</callingpartynumbertype>') +
-	(!jsonDATA.callingpartynumberingplan ? '' : '<callingpartynumberingplan>' + jsonDATA.callingpartynumberingplan + '</callingpartynumberingplan>') +
-	(!jsonDATA.calledpartyienumbertype ? '' : '<calledpartynumbertype>' + jsonDATA.calledpartyienumbertype + '</calledpartynumbertype>') +
-	(!jsonDATA.calledpartynumberingplan ? '' : '<calledpartynumberingplan>' + jsonDATA.calledpartynumberingplan + '</calledpartynumberingplan>') +
-	(!jsonDATA.usecallingpartysexternalphonenumbermask ? '' : '<usecallingpartyphonemask>' + jsonDATA.usecallingpartysexternalphonenumbermask + '</usecallingpartyphonemask>') +
-	(!jsonDATA.resourceprioritynamespacenetworkdomain ? '' : '<resourceprioritynamespacename>' + jsonDATA.resourceprioritynamespacenetworkdomain + '</resourceprioritynamespacename>') +
-	(!jsonDATA.routeclass ? '' : '<routeclass>' + jsonDATA.routeclass + '</routeclass>') +
-	(!jsonDATA.routenexthopbycallingpartynumber ? '' : '<routenexthopbycgpn>' + jsonDATA.routenexthopbycallingpartynumber + '</routenexthopbycgpn>') +
-	(!jsonDATA.externalcallcontrolprofile ? '' : '<callinterceptprofilename>' + jsonDATA.externalcallcontrolprofile + '</callinterceptprofilename>') +
-	(!jsonDATA.useoriginatorscallingsearchspace ? '' : '<useoriginatorcss>' + jsonDATA.useoriginatorscallingsearchspace + '</useoriginatorcss>') +
-	(!jsonDATA.donotwaitforinterdigittimeoutonsubsequenthops ? '' : '<dontwaitforidtonsubsequenthops>' + jsonDATA.donotwaitforinterdigittimeoutonsubsequenthops + '</dontwaitforidtonsubsequenthops>') +
-	(!jsonDATA.usecallingpartyphonemask ? '' : '<usecallingpartyphonemask>' + jsonDATA.usecallingpartyphonemask + '</usecallingpartyphonemask>')
+	(!jsonDATA.mlppprecedence ? '' : '<patternPrecedence>' + jsonDATA.mlppprecedence + '</patternPrecedence>') +
+	(!jsonDATA.callingsearchspace ? '' : '<callingSearchSpaceName>' + jsonDATA.callingsearchspace + '</callingSearchSpaceName>') +
+	(!jsonDATA.routeoption ? '' : '<blockEnable>' + jsonDATA.routeoption + '</blockEnable>') +
+	(!jsonDATA.outsidedialtone ? '' : '<provideOutsideDialtone>' + jsonDATA.outsidedialtone + '</provideOutsideDialtone>') +
+	(!jsonDATA.urgentpriority ? '' : '<patternUrgency>' + jsonDATA.urgentpriority + '</patternUrgency>') +
+	(!jsonDATA.callingpartytransformationmask ? '' : '<callingPartyTransformationMask>' + jsonDATA.callingpartytransformationmask + '</callingPartyTransformationMask>') +
+	(!jsonDATA.callingpartyprefixdigitsoutgoingcalls ? '' : '<callingPartyPrefixDigits>' + jsonDATA.callingpartyprefixdigitsoutgoingcalls + '</callingPartyPrefixDigits>') +
+	(!jsonDATA.callinglineidpresentation ? '' : '<callingLinePresentationBit>' + jsonDATA.callinglineidpresentation + '</callingLinePresentationBit>') +
+	(!jsonDATA.callingnamepresentation ? '' : '<callingNamePresentationBit>' + jsonDATA.callingnamepresentation + '</callingNamePresentationBit>') +
+	(!jsonDATA.connectedlineidpresentation ? '' : '<connectedLinePresentationBit>' + jsonDATA.connectedlineidpresentation + '</connectedLinePresentationBit>') +
+	(!jsonDATA.connectednamepresentation ? '' : '<connectedNamePresentationBit>' + jsonDATA.connectednamepresentation + '</connectedNamePresentationBit>') +
+	(!jsonDATA.discarddigits ? '' : '<digitDiscardInstructionName>' + jsonDATA.discarddigits + '</digitDiscardInstructionName>') +
+	(!jsonDATA.calledpartytransformmask ? '' : '<calledPartyTransformationMask>' + jsonDATA.calledpartytransformmask + '</calledPartyTransformationMask>') +
+	(!jsonDATA.calledpartyprefixdigitsoutgoingcalls ? '' : '<prefixDigitsOut>' + jsonDATA.calledpartyprefixdigitsoutgoingcalls + '</prefixDigitsOut>') +
+	(!jsonDATA.blockthispatternoption ? '' : '<releaseClause>' + jsonDATA.blockthispatternoption + '</releaseClause>') +
+	(!jsonDATA.callingpartyienumbertype ? '' : '<callingPartyNumberType>' + jsonDATA.callingpartyienumbertype + '</callingPartyNumberType>') +
+	(!jsonDATA.callingpartynumberingplan ? '' : '<callingPartyNumberingPlan>' + jsonDATA.callingpartynumberingplan + '</callingPartyNumberingPlan>') +
+	(!jsonDATA.calledpartyienumbertype ? '' : '<calledPartyNumberType>' + jsonDATA.calledpartyienumbertype + '</calledPartyNumberType>') +
+	(!jsonDATA.calledpartynumberingplan ? '' : '<calledPartyNumberingPlan>' + jsonDATA.calledpartynumberingplan + '</calledPartyNumberingPlan>') +
+	(!jsonDATA.usecallingpartysexternalphonenumbermask ? '' : '<useCallingPartyPhoneMask>' + jsonDATA.usecallingpartysexternalphonenumbermask + '</useCallingPartyPhoneMask>') +
+	(!jsonDATA.resourceprioritynamespacenetworkdomain ? '' : '<resourcePriorityNamespaceName>' + jsonDATA.resourceprioritynamespacenetworkdomain + '</resourcePriorityNamespaceName>') +
+	(!jsonDATA.routeclass ? '' : '<routeClass>' + jsonDATA.routeclass + '</routeClass>') +
+	(!jsonDATA.routenexthopbycallingpartynumber ? '' : '<routeNextHopByCgpn>' + jsonDATA.routenexthopbycallingpartynumber + '</routeNextHopByCgpn>') +
+	(!jsonDATA.externalcallcontrolprofile ? '' : '<callInterceptProfileName>' + jsonDATA.externalcallcontrolprofile + '</callInterceptProfileName>') +
+	(!jsonDATA.useoriginatorscallingsearchspace ? '' : '<useOriginatorCss>' + jsonDATA.useoriginatorscallingsearchspace + '</useOriginatorCss>') +
+	(!jsonDATA.donotwaitforinterdigittimeoutonsubsequenthops ? '' : '<dontWaitForIDTOnSubsequentHops>' + jsonDATA.donotwaitforinterdigittimeoutonsubsequenthops + '</dontWaitForIDTOnSubsequentHops>')
 	
 		
 		
