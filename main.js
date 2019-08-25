@@ -119,7 +119,7 @@ module.exports = (version, ipaddress, username, password, method) => {
 	
 	service.getDeviceName = (deviceArr) => {
 		return new Promise((resolve, reject) => {
-			SQL = "select name from device where name= in ('" + deviceArr.toString().replace(/,/g,"','") + "')"
+			SQL = "select name from device where name in ('" + deviceArr.toString().replace(/,/g,"','") + "')"
 			SQL = util.format(SQL);
 			service.cucm.query(SQL, function (err, response) {
 				if (Array.isArray(response)){

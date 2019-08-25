@@ -1223,7 +1223,7 @@ CucmSQLSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 		</soapenv:Envelope>'
 	
 	var XML_BODY = (!jsonDATA.translationpattern ? '' : '<pattern>' + jsonDATA.translationpattern + '</pattern>') +
-	(!jsonDATA.routepartition ? '' : '<routepartitionname>' + jsonDATA.routepartition + '</routepartitionname>') +
+	(!jsonDATA.routepartition ? '' : '<routePartitionName>' + jsonDATA.routepartition + '</routePartitionName>') +
 	'<usage>Translation</usage>' +
 	(!jsonDATA.description ? '' : '<description>' + jsonDATA.description + '</description>') +
 	(!jsonDATA.numberingplan ? '' : '<dialplanname>' + jsonDATA.numberingplan + '</dialplanname>') +
