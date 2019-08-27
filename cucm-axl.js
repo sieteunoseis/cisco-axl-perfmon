@@ -1344,12 +1344,12 @@ CucmSQLSession.prototype.addRoutePattern = function(jsonDATA, callback) {
 	(!jsonDATA.typeofreleasecausevalue ? '' : '<releaseClause>' + jsonDATA.typeofreleasecausevalue + '</releaseClause>') +
 	(!jsonDATA.urgentpriority ? '' : '<patternUrgency>' + jsonDATA.urgentpriority + '</patternUrgency>') +
 	(!jsonDATA.usecallingpartysexternalphonenumbermask ? '' : '<useCallingPartyPhoneMask>' + jsonDATA.usecallingpartysexternalphonenumbermask + '</useCallingPartyPhoneMask>') +
-	'<isdnNsfInfoElement>' + 
+	(!jsonDATA.networkserviceprotocol ? '' : '<isdnNsfInfoElement>') +
+	(!jsonDATA.networkserviceprotocol ? '' : '<isdnNsfInfoElement><networkServiceProtocol>' + jsonDATA.networkserviceprotocol + '</networkServiceProtocol>') +
 	(!jsonDATA.carrieridentificationcode ? '' : '<cic>' + jsonDATA.carrieridentificationcode + '</cic>') +
 	(!jsonDATA.networkservice ? '' : '<networkService>' + jsonDATA.networkservice + '</networkService>') +
-	(!jsonDATA.networkserviceprotocol ? '' : '<networkServiceProtocol>' + jsonDATA.networkserviceprotocol + '</networkServiceProtocol>') +
 	(!jsonDATA.serviceparametervalue ? '' : '<paramValue>' + jsonDATA.serviceparametervalue + '</paramValue>') +
-	'</isdnNsfInfoElement>' +
+	(!jsonDATA.networkserviceprotocol ? '' : '</isdnNsfInfoElement>') +
 	'<isEmergencyServiceNumber>false</isEmergencyServiceNumber>'
 		
 		
