@@ -1306,49 +1306,49 @@ CucmSQLSession.prototype.addRoutePattern = function(jsonDATA, callback) {
 		</soapenv:Body>\
 		</soapenv:Envelope>'
 	
-	var XML_BODY = (!jsonDATA.allowdeviceoverride ? '' : '<allowdeviceoverride>' + jsonDATA.allowdeviceoverride + '</allowdeviceoverride>') +
-	(!jsonDATA.allowoverlapsending ? '' : '<supportoverlapsending>' + jsonDATA.allowoverlapsending + '</supportoverlapsending>') +
-	(!jsonDATA.applycallblockingpercentage ? '' : '<enabledccenforcement>' + jsonDATA.applycallblockingpercentage + '</enabledccenforcement>') +
-	(!jsonDATA.applycallblockingpercentagevalue ? '' : '<blockedcallpercentage>' + jsonDATA.applycallblockingpercentagevalue + '</blockedcallpercentage>') +
-	(!jsonDATA.authorizationlevel ? '' : '<authorizationlevelrequired>' + jsonDATA.authorizationlevel + '</authorizationlevelrequired>') +
-	(!jsonDATA.callclassification ? '' : '<networklocation>' + jsonDATA.callclassification + '</networklocation>') +
-	(!jsonDATA.calledpartynumbertype ? '' : '<calledpartynumbertype>' + jsonDATA.calledpartynumbertype + '</calledpartynumbertype>') +
-	(!jsonDATA.calledpartynumberingplan ? '' : '<calledpartynumberingplan>' + jsonDATA.calledpartynumberingplan + '</calledpartynumberingplan>') +
-	(!jsonDATA.calledpartytransformmask ? '' : '<calledpartytransformationmask>' + jsonDATA.calledpartytransformmask + '</calledpartytransformationmask>') +
-	(!jsonDATA.callinglineidpresentation ? '' : '<callinglinepresentationbit>' + jsonDATA.callinglineidpresentation + '</callinglinepresentationbit>') +
-	(!jsonDATA.callingnamepresentation ? '' : '<callingnamepresentationbit>' + jsonDATA.callingnamepresentation + '</callingnamepresentationbit>') +
-	(!jsonDATA.callingpartynumbertype ? '' : '<callingpartynumbertype>' + jsonDATA.callingpartynumbertype + '</callingpartynumbertype>') +
-	(!jsonDATA.callingpartynumberingplan ? '' : '<callingpartynumberingplan>' + jsonDATA.callingpartynumberingplan + '</callingpartynumberingplan>') +
-	(!jsonDATA.callingpartytransformmask ? '' : '<callingpartytransformationmask>' + jsonDATA.callingpartytransformmask + '</callingpartytransformationmask>') +
-	(!jsonDATA.connectedlineidpresentation ? '' : '<connectedlinepresentationbit>' + jsonDATA.connectedlineidpresentation + '</connectedlinepresentationbit>') +
-	(!jsonDATA.connectednamepresentation ? '' : '<connectednamepresentationbit>' + jsonDATA.connectednamepresentation + '</connectednamepresentationbit>') +
+	var XML_BODY = (!jsonDATA.allowdeviceoverride ? '' : '<allowDeviceOverride>' + jsonDATA.allowdeviceoverride + '</allowDeviceOverride>') +
+	(!jsonDATA.allowoverlapsending ? '' : '<supportOverlapSending>' + jsonDATA.allowoverlapsending + '</supportOverlapSending>') +
+	(!jsonDATA.applycallblockingpercentage ? '' : '<enableDccEnforcement>' + jsonDATA.applycallblockingpercentage + '</enableDccEnforcement>') +
+	(!jsonDATA.applycallblockingpercentagevalue ? '' : '<blockedCallPercentage>' + jsonDATA.applycallblockingpercentagevalue + '</blockedCallPercentage>') +
+	(!jsonDATA.authorizationlevel ? '' : '<authorizationLevelRequired>' + jsonDATA.authorizationlevel + '</authorizationLevelRequired>') +
+	(!jsonDATA.callclassification ? '' : '<networkLocation>' + jsonDATA.callclassification + '</networkLocation>') +
+	(!jsonDATA.calledpartynumbertype ? '' : '<calledPartyNumberType>' + jsonDATA.calledpartynumbertype + '</calledPartyNumberType>') +
+	(!jsonDATA.calledpartynumberingplan ? '' : '<calledPartyNumberingPlan>' + jsonDATA.calledpartynumberingplan + '</calledPartyNumberingPlan>') +
+	(!jsonDATA.calledpartytransformmask ? '' : '<calledPartyTransformationMask>' + jsonDATA.calledpartytransformmask + '</calledPartyTransformationMask>') +
+	(!jsonDATA.callinglineidpresentation ? '' : '<callingLinePresentationBit>' + jsonDATA.callinglineidpresentation + '</callingLinePresentationBit>') +
+	(!jsonDATA.callingnamepresentation ? '' : '<callingNamePresentationBit>' + jsonDATA.callingnamepresentation + '</callingNamePresentationBit>') +
+	(!jsonDATA.callingpartynumbertype ? '' : '<callingPartyNumberType>' + jsonDATA.callingpartynumbertype + '</callingPartyNumberType>') +
+	(!jsonDATA.callingpartynumberingplan ? '' : '<callingPartyNumberingPlan>' + jsonDATA.callingpartynumberingplan + '</callingPartyNumberingPlan>') +
+	(!jsonDATA.callingpartytransformmask ? '' : '<callingPartyTransformationMask>' + jsonDATA.callingpartytransformmask + '</callingPartyTransformationMask>') +
+	(!jsonDATA.connectedlineidpresentation ? '' : '<connectedLinePresentationBit>' + jsonDATA.connectedlineidpresentation + '</connectedLinePresentationBit>') +
+	(!jsonDATA.connectednamepresentation ? '' : '<connectedNamePresentationBit>' + jsonDATA.connectednamepresentation + '</connectedNamePresentationBit>') +
 	(!jsonDATA.description ? '' : '<description>' + jsonDATA.description + '</description>') +
-	(!jsonDATA.discarddigits ? '' : '<digitdiscardinstructionname>' + jsonDATA.discarddigits + '</digitdiscardinstructionname>') +
-	(!jsonDATA.externalcallcontrolprofile ? '' : '<externalcallcontrol>' + jsonDATA.externalcallcontrolprofile + '</externalcallcontrol>') +
+	(!jsonDATA.discarddigits ? '' : '<digitDiscardInstructionName>' + jsonDATA.discarddigits + '</digitDiscardInstructionName>') +
+	(!jsonDATA.externalcallcontrolprofile ? '' : '<externalCallControl>' + jsonDATA.externalcallcontrolprofile + '</externalCallControl>') +
 	// Only working for Route List Currently
-	(!jsonDATA.gatewayroutelist ? '' : '<destination><routelistname>' + jsonDATA.gatewayroutelist + '</routelistname></destination>') +
-	(!jsonDATA.isanemergencyservicesnumber ? '' : '<isemergencyservicenumber>' + jsonDATA.isanemergencyservicesnumber + '</isemergencyservicenumber>') +
-	(!jsonDATA.mlppprecedence ? '' : '<patternprecedence>' + jsonDATA.mlppprecedence + '</patternprecedence>') +
-	(!jsonDATA.numberingplan ? '' : '<dialplanname>' + jsonDATA.numberingplan + '</dialplanname>') +
-	(!jsonDATA.prefix_digits_called_party ? '' : '<prefixdigitsout>' + jsonDATA.prefix_digits_called_party + '</prefixdigitsout>') +
-	(!jsonDATA.prefix_digits_calling_party ? '' : '<callingpartyprefixdigits>' + jsonDATA.prefix_digits_calling_party + '</callingpartyprefixdigits>') +
-	(!jsonDATA.provideoutsidedialtone ? '' : '<provideoutsidedialtone>' + jsonDATA.provideoutsidedialtone + '</provideoutsidedialtone>') +
-	(!jsonDATA.requireclientmattercode ? '' : '<clientcoderequired>' + jsonDATA.requireclientmattercode + '</clientcoderequired>') +
-	(!jsonDATA.requireforcedauthorizationcode ? '' : '<authorizationcoderequired>' + jsonDATA.requireforcedauthorizationcode + '</authorizationcoderequired>') +
-	(!jsonDATA.resourceprioritynamespacenetworkdomain ? '' : '<resourceprioritynamespacename>' + jsonDATA.resourceprioritynamespacenetworkdomain + '</resourceprioritynamespacename>') +
-	(!jsonDATA.routeclass ? '' : '<routeclass>' + jsonDATA.routeclass + '</routeclass>') +
-	(!jsonDATA.routefilter ? '' : '<routefiltername>' + jsonDATA.routefilter + '</routefiltername>') +
-	(!jsonDATA.routeoption ? '' : '<blockenable>' + jsonDATA.routeoption + '</blockenable>') +
-	(!jsonDATA.routepartition ? '' : '<routepartitionname>' + jsonDATA.routepartition + '</routepartitionname>') +
+	(!jsonDATA.gatewayroutelist ? '' : '<destination><routeListName>' + jsonDATA.gatewayroutelist + '</routeListName></destination>') +
+	(!jsonDATA.isanemergencyservicesnumber ? '' : '<isEmergencyServiceNumber>' + jsonDATA.isanemergencyservicesnumber + '</isEmergencyServiceNumber>') +
+	(!jsonDATA.mlppprecedence ? '' : '<patternPrecedence>' + jsonDATA.mlppprecedence + '</patternPrecedence>') +
+	(!jsonDATA.numberingplan ? '' : '<dialPlanName>' + jsonDATA.numberingplan + '</dialPlanName>') +
+	(!jsonDATA.prefix_digits_called_party ? '' : '<prefixDigitsOut>' + jsonDATA.prefix_digits_called_party + '</prefixDigitsOut>') +
+	(!jsonDATA.prefix_digits_calling_party ? '' : '<callingPartyPrefixDigits>' + jsonDATA.prefix_digits_calling_party + '</callingPartyPrefixDigits>') +
+	(!jsonDATA.provideoutsidedialtone ? '' : '<provideOutsideDialtone>' + jsonDATA.provideoutsidedialtone + '</provideOutsideDialtone>') +
+	(!jsonDATA.requireclientmattercode ? '' : '<clientCodeRequired>' + jsonDATA.requireclientmattercode + '</clientCodeRequired>') +
+	(!jsonDATA.requireforcedauthorizationcode ? '' : '<authorizationCodeRequired>' + jsonDATA.requireforcedauthorizationcode + '</authorizationCodeRequired>') +
+	(!jsonDATA.resourceprioritynamespacenetworkdomain ? '' : '<resourcePriorityNamespaceName>' + jsonDATA.resourceprioritynamespacenetworkdomain + '</resourcePriorityNamespaceName>') +
+	(!jsonDATA.routeclass ? '' : '<routeClass>' + jsonDATA.routeclass + '</routeClass>') +
+	(!jsonDATA.routefilter ? '' : '<routeFilterName>' + jsonDATA.routefilter + '</routeFilterName>') +
+	(!jsonDATA.routeoption ? '' : '<blockEnable>' + jsonDATA.routeoption + '</blockEnable>') +
+	(!jsonDATA.routepartition ? '' : '<routePartitionName>' + jsonDATA.routepartition + '</routePartitionName>') +
 	(!jsonDATA.routepattern ? '' : '<pattern>' + jsonDATA.routepattern + '</pattern>') +
-	(!jsonDATA.typeofreleasecausevalue ? '' : '<releaseclause>' + jsonDATA.typeofreleasecausevalue + '</releaseclause>') +
-	(!jsonDATA.urgentpriority ? '' : '<patternurgency>' + jsonDATA.urgentpriority + '</patternurgency>') +
-	(!jsonDATA.usecallingpartysexternalphonenumbermask ? '' : '<usecallingpartyphonemask>' + jsonDATA.usecallingpartysexternalphonenumbermask + '</usecallingpartyphonemask>') +
+	(!jsonDATA.typeofreleasecausevalue ? '' : '<releaseClause>' + jsonDATA.typeofreleasecausevalue + '</releaseClause>') +
+	(!jsonDATA.urgentpriority ? '' : '<patternUrgency>' + jsonDATA.urgentpriority + '</patternUrgency>') +
+	(!jsonDATA.usecallingpartysexternalphonenumbermask ? '' : '<useCallingPartyPhoneMask>' + jsonDATA.usecallingpartysexternalphonenumbermask + '</useCallingPartyPhoneMask>') +
 	'<isdnNsfInfoElement>' + 
 	(!jsonDATA.carrieridentificationcode ? '' : '<cic>' + jsonDATA.carrieridentificationcode + '</cic>') +
-	(!jsonDATA.networkservice ? '' : '<networkservice>' + jsonDATA.networkservice + '</networkservice>') +
-	(!jsonDATA.networkserviceprotocol ? '' : '<networkserviceprotocol>' + jsonDATA.networkserviceprotocol + '</networkserviceprotocol>') +
-	(!jsonDATA.serviceparametervalue ? '' : '<paramvalue>' + jsonDATA.serviceparametervalue + '</paramvalue>') +
+	(!jsonDATA.networkservice ? '' : '<networkService>' + jsonDATA.networkservice + '</networkService>') +
+	(!jsonDATA.networkserviceprotocol ? '' : '<networkServiceProtocol>' + jsonDATA.networkserviceprotocol + '</networkServiceProtocol>') +
+	(!jsonDATA.serviceparametervalue ? '' : '<paramValue>' + jsonDATA.serviceparametervalue + '</paramValue>')
 	'</isdnNsfInfoElement>' +
 	'<isEmergencyServiceNumber>false</isEmergencyServiceNumber>'
 		
@@ -1404,21 +1404,21 @@ CucmSQLSession.prototype.addSipRoutePattern = function(jsonDATA, callback) {
 	
 	var XML_BODY = (!jsonDATA.ipv4pattern ? '' : '<pattern>' + jsonDATA.ipv4pattern + '</pattern>') +
 	(!jsonDATA.description ? '' : '<description>' + jsonDATA.description + '</description>') +
-	(!jsonDATA.routepartition ? '' : '<routepartitionname>' + jsonDATA.routepartition + '</routepartitionname>') +
-	(!jsonDATA.blockpattern ? '' : '<blockenable>' + jsonDATA.blockpattern + '</blockenable>') +
-	(!jsonDATA.usecallingpartysexternalphonemask ? '' : '<usecallingpartyphonemask>' + jsonDATA.usecallingpartysexternalphonemask + '</usecallingpartyphonemask>') +
-	(!jsonDATA.callingpartytransformationmask ? '' : '<callingpartytransformationmask>' + jsonDATA.callingpartytransformationmask + '</callingpartytransformationmask>') +
-	(!jsonDATA.prefixdigits ? '' : '<callingpartyprefixdigits>' + jsonDATA.prefixdigits + '</callingpartyprefixdigits>') +
-	(!jsonDATA.callinglineidpresentation ? '' : '<callinglinepresentationbit>' + jsonDATA.callinglineidpresentation + '</callinglinepresentationbit>') +
-	(!jsonDATA.callinglinenamepresentation ? '' : '<callingnamepresentationbit>' + jsonDATA.callinglinenamepresentation + '</callingnamepresentationbit>') +
-	(!jsonDATA.connectedlineidpresentation ? '' : '<connectedlinepresentationbit>' + jsonDATA.connectedlineidpresentation + '</connectedlinepresentationbit>') +
-	(!jsonDATA.connectedlinenamepresentation ? '' : '<connectednamepresentationbit>' + jsonDATA.connectedlinenamepresentation + '</connectednamepresentationbit>') +
-	(!jsonDATA.ipv6pattern ? '' : '<dnorpatternipv6>' + jsonDATA.ipv6pattern + '</dnorpatternipv6>') +
+	(!jsonDATA.routepartition ? '' : '<routePartitionName>' + jsonDATA.routepartition + '</routePartitionName>') +
+	(!jsonDATA.blockpattern ? '' : '<blockEnable>' + jsonDATA.blockpattern + '</blockEnable>') +
+	(!jsonDATA.usecallingpartysexternalphonemask ? '' : '<useCallingPartyPhoneMask>' + jsonDATA.usecallingpartysexternalphonemask + '</useCallingPartyPhoneMask>') +
+	(!jsonDATA.callingpartytransformationmask ? '' : '<callingPartyTransformationMask>' + jsonDATA.callingpartytransformationmask + '</callingPartyTransformationMask>') +
+	(!jsonDATA.prefixdigits ? '' : '<callingPartyPrefixDigits>' + jsonDATA.prefixdigits + '</callingPartyPrefixDigits>') +
+	(!jsonDATA.callinglineidpresentation ? '' : '<callingLinePresentationBit>' + jsonDATA.callinglineidpresentation + '</callingLinePresentationBit>') +
+	(!jsonDATA.callinglinenamepresentation ? '' : '<callingNamePresentationBit>' + jsonDATA.callinglinenamepresentation + '</callingNamePresentationBit>') +
+	(!jsonDATA.connectedlineidpresentation ? '' : '<connectedLinePresentationBit>' + jsonDATA.connectedlineidpresentation + '</connectedLinePresentationBit>') +
+	(!jsonDATA.connectedlinenamepresentation ? '' : '<connectedNamePresentationBit>' + jsonDATA.connectedlinenamepresentation + '</connectedNamePresentationBit>') +
+	(!jsonDATA.ipv6pattern ? '' : '<dnOrPatternIpv6>' + jsonDATA.ipv6pattern + '</dnOrPatternIpv6>') +
 	(!jsonDATA.patternusage ? '' : '<usage>' + jsonDATA.patternusage + '</usage>') +
-	(!jsonDATA.routeonuserpart ? '' : '<routeonuserpart>' + jsonDATA.routeonuserpart + '</routeonuserpart>') +
-	(!jsonDATA.usecallercss ? '' : '<usecallercss>' + jsonDATA.usecallercss + '</usecallercss>') +
-	(!jsonDATA.domainroutingcallingsearchspace ? '' : '<domainroutingcssname>' + jsonDATA.domainroutingcallingsearchspace + '</domainroutingcssname>') +
-	(!jsonDATA.siptrunk ? '' : '<siptrunkname>' + jsonDATA.siptrunk + '</siptrunkname>')
+	(!jsonDATA.routeonuserpart ? '' : '<routeOnUserPart>' + jsonDATA.routeonuserpart + '</routeOnUserPart>') +
+	(!jsonDATA.usecallercss ? '' : '<useCallerCss>' + jsonDATA.usecallercss + '</useCallerCss>') +
+	(!jsonDATA.domainroutingcallingsearchspace ? '' : '<domainRoutingCssName>' + jsonDATA.domainroutingcallingsearchspace + '</domainRoutingCssName>') +
+	(!jsonDATA.siptrunk ? '' : '<sipTrunkName>' + jsonDATA.siptrunk + '</sipTrunkName>')
 		
 		
 	// FIND undefined VALUES		
