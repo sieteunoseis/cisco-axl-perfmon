@@ -1226,7 +1226,7 @@ CucmSQLSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 	(!jsonDATA.routepartition ? '' : '<routePartitionName>' + jsonDATA.routepartition + '</routePartitionName>') +
 	'<usage>Translation</usage>' +
 	(!jsonDATA.description ? '' : '<description>' + jsonDATA.description + '</description>') +
-	(!jsonDATA.numberingplan ? '' : '<dialPlanName>' + jsonDATA.numberingplan + '</dialPlanName>') +
+	(!jsonDATA.numberingplan ? '' : '<digitDiscardInstructionName>' + jsonDATA.numberingplan + '</dialPlanName>') +
 	(!jsonDATA.routefilter ? '' : '<routefiltername>' + jsonDATA.routefilter + '</routefiltername>') +
 	(!jsonDATA.mlppprecedence ? '' : '<patternPrecedence>' + jsonDATA.mlppprecedence + '</patternPrecedence>') +
 	(!jsonDATA.callingsearchspace ? '' : '<callingSearchSpaceName>' + jsonDATA.callingsearchspace + '</callingSearchSpaceName>') +
@@ -1274,6 +1274,170 @@ CucmSQLSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 	options.agent = new https.Agent({ keepAlive: false });
 	
 	options.headers.SOAPAction += ' addTransPattern'
+	
+	var req = https.request(options, function(res) {
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
+					try {
+						callback(null, result['soapenv:Body']);  
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			}
+		});
+		req.on('error', function(e) {
+			callback(e);
+		});
+	});
+	req.end(soapBody);
+};
+
+CucmSQLSession.prototype.addRoutePattern = function(jsonDATA, callback) {
+	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '">\
+		<soapenv:Header/>\
+		<soapenv:Body>\
+			<ns:addRoutePattern>\
+				<routePattern>%s</routePattern>\
+			</ns:addRoutePattern>\
+		</soapenv:Body>\
+		</soapenv:Envelope>'
+	
+	var XML_BODY = (!jsonDATA.allowdeviceoverride ? '' : '<allowdeviceoverride>' + jsonDATA.allowdeviceoverride + '</allowdeviceoverride>') +
+	(!jsonDATA.allowoverlapsending ? '' : '<supportoverlapsending>' + jsonDATA.allowoverlapsending + '</supportoverlapsending>') +
+	(!jsonDATA.applycallblockingpercentage ? '' : '<enabledccenforcement>' + jsonDATA.applycallblockingpercentage + '</enabledccenforcement>') +
+	(!jsonDATA.applycallblockingpercentagevalue ? '' : '<blockedcallpercentage>' + jsonDATA.applycallblockingpercentagevalue + '</blockedcallpercentage>') +
+	(!jsonDATA.authorizationlevel ? '' : '<authorizationlevelrequired>' + jsonDATA.authorizationlevel + '</authorizationlevelrequired>') +
+	(!jsonDATA.callclassification ? '' : '<networklocation>' + jsonDATA.callclassification + '</networklocation>') +
+	(!jsonDATA.calledpartynumbertype ? '' : '<calledpartynumbertype>' + jsonDATA.calledpartynumbertype + '</calledpartynumbertype>') +
+	(!jsonDATA.calledpartynumberingplan ? '' : '<calledpartynumberingplan>' + jsonDATA.calledpartynumberingplan + '</calledpartynumberingplan>') +
+	(!jsonDATA.calledpartytransformmask ? '' : '<calledpartytransformationmask>' + jsonDATA.calledpartytransformmask + '</calledpartytransformationmask>') +
+	(!jsonDATA.callinglineidpresentation ? '' : '<callinglinepresentationbit>' + jsonDATA.callinglineidpresentation + '</callinglinepresentationbit>') +
+	(!jsonDATA.callingnamepresentation ? '' : '<callingnamepresentationbit>' + jsonDATA.callingnamepresentation + '</callingnamepresentationbit>') +
+	(!jsonDATA.callingpartynumbertype ? '' : '<callingpartynumbertype>' + jsonDATA.callingpartynumbertype + '</callingpartynumbertype>') +
+	(!jsonDATA.callingpartynumberingplan ? '' : '<callingpartynumberingplan>' + jsonDATA.callingpartynumberingplan + '</callingpartynumberingplan>') +
+	(!jsonDATA.callingpartytransformmask ? '' : '<callingpartytransformationmask>' + jsonDATA.callingpartytransformmask + '</callingpartytransformationmask>') +
+	(!jsonDATA.connectedlineidpresentation ? '' : '<connectedlinepresentationbit>' + jsonDATA.connectedlineidpresentation + '</connectedlinepresentationbit>') +
+	(!jsonDATA.connectednamepresentation ? '' : '<connectednamepresentationbit>' + jsonDATA.connectednamepresentation + '</connectednamepresentationbit>') +
+	(!jsonDATA.description ? '' : '<description>' + jsonDATA.description + '</description>') +
+	(!jsonDATA.discarddigits ? '' : '<digitdiscardinstructionname>' + jsonDATA.discarddigits + '</digitdiscardinstructionname>') +
+	(!jsonDATA.externalcallcontrolprofile ? '' : '<externalcallcontrol>' + jsonDATA.externalcallcontrolprofile + '</externalcallcontrol>') +
+	// Only working for Route List Currently
+	(!jsonDATA.gateway/routelist ? '' : '<destination><routelistname>' + jsonDATA.gateway/routelist + '</routelistname></destination>') +
+	(!jsonDATA.isanemergencyservicesnumber ? '' : '<isemergencyservicenumber>' + jsonDATA.isanemergencyservicesnumber + '</isemergencyservicenumber>') +
+	(!jsonDATA.mlppprecedence ? '' : '<patternprecedence>' + jsonDATA.mlppprecedence + '</patternprecedence>') +
+	(!jsonDATA.numberingplan ? '' : '<dialplanname>' + jsonDATA.numberingplan + '</dialplanname>') +
+	(!jsonDATA.prefix_digits_called_party ? '' : '<prefixdigitsout>' + jsonDATA.prefix_digits_called_party + '</prefixdigitsout>') +
+	(!jsonDATA.prefix_digits_calling_party ? '' : '<callingpartyprefixdigits>' + jsonDATA.prefix_digits_calling_party + '</callingpartyprefixdigits>') +
+	(!jsonDATA.provideoutsidedialtone ? '' : '<provideoutsidedialtone>' + jsonDATA.provideoutsidedialtone + '</provideoutsidedialtone>') +
+	(!jsonDATA.requireclientmattercode ? '' : '<clientcoderequired>' + jsonDATA.requireclientmattercode + '</clientcoderequired>') +
+	(!jsonDATA.requireforcedauthorizationcode ? '' : '<authorizationcoderequired>' + jsonDATA.requireforcedauthorizationcode + '</authorizationcoderequired>') +
+	(!jsonDATA.resourceprioritynamespacenetworkdomain ? '' : '<resourceprioritynamespacename>' + jsonDATA.resourceprioritynamespacenetworkdomain + '</resourceprioritynamespacename>') +
+	(!jsonDATA.routeclass ? '' : '<routeclass>' + jsonDATA.routeclass + '</routeclass>') +
+	(!jsonDATA.routefilter ? '' : '<routefiltername>' + jsonDATA.routefilter + '</routefiltername>') +
+	(!jsonDATA.routeoption ? '' : '<blockenable>' + jsonDATA.routeoption + '</blockenable>') +
+	(!jsonDATA.routepartition ? '' : '<routepartitionname>' + jsonDATA.routepartition + '</routepartitionname>') +
+	(!jsonDATA.routepattern ? '' : '<pattern>' + jsonDATA.routepattern + '</pattern>') +
+	(!jsonDATA.typeofreleasecausevalue ? '' : '<releaseclause>' + jsonDATA.typeofreleasecausevalue + '</releaseclause>') +
+	(!jsonDATA.urgentpriority ? '' : '<patternurgency>' + jsonDATA.urgentpriority + '</patternurgency>') +
+	(!jsonDATA.usecallingpartysexternalphonenumbermask ? '' : '<usecallingpartyphonemask>' + jsonDATA.usecallingpartysexternalphonenumbermask + '</usecallingpartyphonemask>') +
+	'<isdnNsfInfoElement>' + 
+	(!jsonDATA.carrieridentificationcode ? '' : '<cic>' + jsonDATA.carrieridentificationcode + '</cic>') +
+	(!jsonDATA.networkservice ? '' : '<networkservice>' + jsonDATA.networkservice + '</networkservice>') +
+	(!jsonDATA.networkserviceprotocol ? '' : '<networkserviceprotocol>' + jsonDATA.networkserviceprotocol + '</networkserviceprotocol>') +
+	(!jsonDATA.serviceparametervalue ? '' : '<paramvalue>' + jsonDATA.serviceparametervalue + '</paramvalue>') +
+	'</isdnNsfInfoElement>' +
+	'<isEmergencyServiceNumber>false</isEmergencyServiceNumber>'
+		
+		
+	// FIND undefined VALUES		
+	var find = 'undefined';
+	var re = new RegExp(find, 'g');
+	XML_BODY = XML_BODY.replace(re, '');
+	
+	// Find NULL VALUES
+	var findNULL = 'NULL';
+	re = new RegExp(findNULL, 'g');
+	XML_BODY = XML_BODY.replace(re, '');
+		
+	var XML = util.format(XML_ENVELOPE, XML_BODY);
+	var soapBody = Buffer.from(XML);
+	var output = "";
+	var options = this._OPTIONS;
+	options.agent = new https.Agent({ keepAlive: false });
+	
+	options.headers.SOAPAction += ' addRoutePattern'
+	
+	var req = https.request(options, function(res) {
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
+					try {
+						callback(null, result['soapenv:Body']);  
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			}
+		});
+		req.on('error', function(e) {
+			callback(e);
+		});
+	});
+	req.end(soapBody);
+};
+
+CucmSQLSession.prototype.addSipRoutePattern = function(jsonDATA, callback) {
+	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '">\
+		<soapenv:Header/>\
+		<soapenv:Body>\
+			<ns:addSipRoutePattern>\
+				<sipRoutePattern>%s</sipRoutePattern>\
+			</ns:addSipRoutePattern>\
+		</soapenv:Body>\
+		</soapenv:Envelope>'
+	
+	var XML_BODY = (!jsonDATA.ipv4pattern ? '' : '<pattern>' + jsonDATA.ipv4pattern + '</pattern>') +
+	(!jsonDATA.description ? '' : '<description>' + jsonDATA.description + '</description>') +
+	(!jsonDATA.routepartition ? '' : '<routepartitionname>' + jsonDATA.routepartition + '</routepartitionname>') +
+	(!jsonDATA.blockpattern ? '' : '<blockenable>' + jsonDATA.blockpattern + '</blockenable>') +
+	(!jsonDATA.usecallingpartysexternalphonemask ? '' : '<usecallingpartyphonemask>' + jsonDATA.usecallingpartysexternalphonemask + '</usecallingpartyphonemask>') +
+	(!jsonDATA.callingpartytransformationmask ? '' : '<callingpartytransformationmask>' + jsonDATA.callingpartytransformationmask + '</callingpartytransformationmask>') +
+	(!jsonDATA.prefixdigits ? '' : '<callingpartyprefixdigits>' + jsonDATA.prefixdigits + '</callingpartyprefixdigits>') +
+	(!jsonDATA.callinglineidpresentation ? '' : '<callinglinepresentationbit>' + jsonDATA.callinglineidpresentation + '</callinglinepresentationbit>') +
+	(!jsonDATA.callinglinenamepresentation ? '' : '<callingnamepresentationbit>' + jsonDATA.callinglinenamepresentation + '</callingnamepresentationbit>') +
+	(!jsonDATA.connectedlineidpresentation ? '' : '<connectedlinepresentationbit>' + jsonDATA.connectedlineidpresentation + '</connectedlinepresentationbit>') +
+	(!jsonDATA.connectedlinenamepresentation ? '' : '<connectednamepresentationbit>' + jsonDATA.connectedlinenamepresentation + '</connectednamepresentationbit>') +
+	(!jsonDATA.ipv6pattern ? '' : '<dnorpatternipv6>' + jsonDATA.ipv6pattern + '</dnorpatternipv6>') +
+	(!jsonDATA.patternusage ? '' : '<usage>' + jsonDATA.patternusage + '</usage>') +
+	(!jsonDATA.routeonuserpart ? '' : '<routeonuserpart>' + jsonDATA.routeonuserpart + '</routeonuserpart>') +
+	(!jsonDATA.usecallercss ? '' : '<usecallercss>' + jsonDATA.usecallercss + '</usecallercss>') +
+	(!jsonDATA.domainroutingcallingsearchspace ? '' : '<domainroutingcssname>' + jsonDATA.domainroutingcallingsearchspace + '</domainroutingcssname>') +
+	(!jsonDATA.siptrunk ? '' : '<siptrunkname>' + jsonDATA.siptrunk + '</siptrunkname>')
+		
+		
+	// FIND undefined VALUES		
+	var find = 'undefined';
+	var re = new RegExp(find, 'g');
+	XML_BODY = XML_BODY.replace(re, '');
+	
+	// Find NULL VALUES
+	var findNULL = 'NULL';
+	re = new RegExp(findNULL, 'g');
+	XML_BODY = XML_BODY.replace(re, '');
+		
+	var XML = util.format(XML_ENVELOPE, XML_BODY);
+	var soapBody = Buffer.from(XML);
+	var output = "";
+	var options = this._OPTIONS;
+	options.agent = new https.Agent({ keepAlive: false });
+	
+	options.headers.SOAPAction += ' addSipRoutePattern'
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');

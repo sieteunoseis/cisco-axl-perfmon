@@ -571,6 +571,36 @@ module.exports = (version, ipaddress, username, password, method) => {
 			});		
 		});
 	};
+
+	service.addRoutePattern = (jsonDATA) => {
+		return new Promise((resolve, reject) => {
+			service.cucm.addRoutePattern(jsonDATA, function (err, response) {
+				if(response['soapenv:Fault']){
+					reject(response['soapenv:Fault']['faultstring'])
+				}else {
+					resolve(response);
+				}
+			});
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});		
+		});
+	};
+
+	service.addSipRoutePattern = (jsonDATA) => {
+		return new Promise((resolve, reject) => {
+			service.cucm.addSipRoutePattern(jsonDATA, function (err, response) {
+				if(response['soapenv:Fault']){
+					reject(response['soapenv:Fault']['faultstring'])
+				}else {
+					resolve(response);
+				}
+			});
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});		
+		});
+	};
 	
 	service.addUser = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
