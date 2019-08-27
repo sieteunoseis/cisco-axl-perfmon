@@ -1348,7 +1348,7 @@ CucmSQLSession.prototype.addRoutePattern = function(jsonDATA, callback) {
 	(!jsonDATA.carrieridentificationcode ? '' : '<cic>' + jsonDATA.carrieridentificationcode + '</cic>') +
 	(!jsonDATA.networkservice ? '' : '<networkService>' + jsonDATA.networkservice + '</networkService>') +
 	(!jsonDATA.networkserviceprotocol ? '' : '<networkServiceProtocol>' + jsonDATA.networkserviceprotocol + '</networkServiceProtocol>') +
-	(!jsonDATA.serviceparametervalue ? '' : '<paramValue>' + jsonDATA.serviceparametervalue + '</paramValue>')
+	(!jsonDATA.serviceparametervalue ? '' : '<paramValue>' + jsonDATA.serviceparametervalue + '</paramValue>') +
 	'</isdnNsfInfoElement>' +
 	'<isEmergencyServiceNumber>false</isEmergencyServiceNumber>'
 		
