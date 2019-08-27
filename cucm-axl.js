@@ -1326,7 +1326,7 @@ CucmSQLSession.prototype.addRoutePattern = function(jsonDATA, callback) {
 	(!jsonDATA.discarddigits ? '' : '<digitdiscardinstructionname>' + jsonDATA.discarddigits + '</digitdiscardinstructionname>') +
 	(!jsonDATA.externalcallcontrolprofile ? '' : '<externalcallcontrol>' + jsonDATA.externalcallcontrolprofile + '</externalcallcontrol>') +
 	// Only working for Route List Currently
-	(!jsonDATA.gateway/routelist ? '' : '<destination><routelistname>' + jsonDATA.gateway/routelist + '</routelistname></destination>') +
+	(!jsonDATA.gatewayroutelist ? '' : '<destination><routelistname>' + jsonDATA.gatewayroutelist + '</routelistname></destination>') +
 	(!jsonDATA.isanemergencyservicesnumber ? '' : '<isemergencyservicenumber>' + jsonDATA.isanemergencyservicesnumber + '</isemergencyservicenumber>') +
 	(!jsonDATA.mlppprecedence ? '' : '<patternprecedence>' + jsonDATA.mlppprecedence + '</patternprecedence>') +
 	(!jsonDATA.numberingplan ? '' : '<dialplanname>' + jsonDATA.numberingplan + '</dialplanname>') +
