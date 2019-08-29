@@ -41,6 +41,25 @@ module.exports = (version, ipaddress, username, password, method) => {
 			});
 		});
 	};
+
+	service.getServers = () => {
+		return new Promise((resolve, reject) => {
+			SQL = "select distinct ipv4address from certificateprocessnodemap"
+			SQL = util.format(SQL);
+			service.cucm.query(SQL, function (err, response) {
+				if (Array.isArray(response)){
+					resolve(Object.keys(response).map(function(_) { return response[_]['ipv4address']; }));
+				}else if(response){
+					resolve([response.ipv4address])
+				}else{
+					reject(err);	
+				}	
+			});
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});
+		});
+	};
 	
 	service.getDevicePool = () => {
 		return new Promise((resolve, reject) => {
