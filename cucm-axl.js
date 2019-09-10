@@ -7,7 +7,7 @@ var parseString = require('xml2js').parseString;
 // XML tab in B1
 //=CONCATENATE("(!jsonDATA.",SUBSTITUTE(LOWER(A1)," ","")," ? '' : '<",SUBSTITUTE(LOWER(B1)," ",""),">' + jsonDATA.",SUBSTITUTE(LOWER(A1)," ","")," + '</",SUBSTITUTE(LOWER(B1)," ",""),">') +")
 
-function CucmSQLSession(cucmVersion, cucmServerUrl, cucmUser, cucmPassword) {
+function CucmSession(cucmVersion, cucmServerUrl, cucmUser, cucmPassword) {
 	this._version = {version:cucmVersion},
 	this._OPTIONS =  {
 	host: cucmServerUrl, // The IP Address of the Communications Manager Server
@@ -19,11 +19,12 @@ function CucmSQLSession(cucmVersion, cucmServerUrl, cucmUser, cucmPassword) {
 			'Authorization': 'Basic ' + Buffer.from(cucmUser + ":" + cucmPassword).toString('base64'), 
 		'Content-Type': 'text/xml; charset=utf-8'
 	},
+	timeout: 10000, // Default: 120000 (2 minutes)
 	rejectUnauthorized: false          // required to accept self-signed certificate
 	}
 }
 
-CucmSQLSession.prototype.query = function(SQL, callback) {
+CucmSession.prototype.query = function(SQL, callback) {
 	// The user needs to make sure they are sending safe SQL to the communications manager.
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:executeSQLQuery><sql>%s</sql></ns:executeSQLQuery></soapenv:Body></soapenv:Envelope>';
 	var XML = util.format(XML_ENVELOPE, SQL);
@@ -50,11 +51,17 @@ CucmSQLSession.prototype.query = function(SQL, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 
 };
 
-CucmSQLSession.prototype.addPhone = function(jsonDATA, callback) {
+CucmSession.prototype.addPhone = function(jsonDATA, callback) {
 	// The user needs to make sure they are sending safe SQL to the communications manager.
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:addPhone><phone>%s</phone></ns:addPhone></soapenv:Body></soapenv:Envelope>';
 	
@@ -245,11 +252,17 @@ CucmSQLSession.prototype.addPhone = function(jsonDATA, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 
 };
 
-CucmSQLSession.prototype.addLine = function(jsonDATA, callback) {
+CucmSession.prototype.addLine = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:addLine><line>%s</line></ns:addLine></soapenv:Body></soapenv:Envelope>';
 	
 	var XML_BODY = (!jsonDATA.directorynumber ? '' : '<active>true</active>' +
@@ -434,11 +447,17 @@ CucmSQLSession.prototype.addLine = function(jsonDATA, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 
 };
 
-CucmSQLSession.prototype.addUser = function(jsonDATA, callback) {
+CucmSession.prototype.addUser = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:addUser><user>%s</user></ns:addUser></soapenv:Body></soapenv:Envelope>'
 
 	var XML_BODY = (!jsonDATA.userid ? '' : '<userid>' + jsonDATA.userid + '</userid>' +
@@ -548,11 +567,17 @@ CucmSQLSession.prototype.addUser = function(jsonDATA, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 
 };
 
-CucmSQLSession.prototype.updateUser = function(jsonDATA, callback) {
+CucmSession.prototype.updateUser = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:updateUser>%s</ns:updateUser></soapenv:Body></soapenv:Envelope>'
 
 	var XML_BODY = (!jsonDATA.userid ? '' : '<userid>' + jsonDATA.userid + '</userid>' +
@@ -662,11 +687,17 @@ CucmSQLSession.prototype.updateUser = function(jsonDATA, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 
 };
 
-CucmSQLSession.prototype.addDeviceProfile = function(jsonDATA, callback) {
+CucmSession.prototype.addDeviceProfile = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:addDeviceProfile><deviceProfile>%s</deviceProfile></ns:addDeviceProfile></soapenv:Body></soapenv:Envelope>'
 	
 	var XML_BODY = (!jsonDATA.deviceprofilename ? '' : '<name>' + jsonDATA.deviceprofilename + '</name>' +
@@ -784,11 +815,17 @@ CucmSQLSession.prototype.addDeviceProfile = function(jsonDATA, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 
 };
 
-CucmSQLSession.prototype.addRDP = function(jsonDATA, callback) {
+CucmSession.prototype.addRDP = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:addRemoteDestinationProfile><remoteDestinationProfile>%s</remoteDestinationProfile></ns:addRemoteDestinationProfile></soapenv:Body></soapenv:Envelope>'
 	
 	var XML_BODY = (!jsonDATA.remotedestinationprofilename ? '' : '<name>' + jsonDATA.remotedestinationprofilename + '</name>' +
@@ -891,11 +928,17 @@ CucmSQLSession.prototype.addRDP = function(jsonDATA, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 
 };
 
-CucmSQLSession.prototype.addRDI = function(jsonDATA, callback) {
+CucmSession.prototype.addRDI = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:addRemoteDestination><remoteDestination>%s</remoteDestination></ns:addRemoteDestination></soapenv:Body></soapenv:Envelope>'
 	
 	var XML_BODY = (!jsonDATA.name ? '' : '<name>' + jsonDATA.name + '</name>' +
@@ -967,11 +1010,17 @@ CucmSQLSession.prototype.addRDI = function(jsonDATA, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 };
 
 
-CucmSQLSession.prototype.addAdvertisedPattern = function(jsonDATA, callback) {
+CucmSession.prototype.addAdvertisedPattern = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:addAdvertisedPatterns><advertisedPatterns>%s</advertisedPatterns></ns:addAdvertisedPatterns></soapenv:Body></soapenv:Envelope>'
 	
 	var XML_BODY = (!jsonDATA.advertisedpattern ? '' : '<pattern>' + jsonDATA.advertisedpattern + '</pattern>' +
@@ -1016,10 +1065,16 @@ CucmSQLSession.prototype.addAdvertisedPattern = function(jsonDATA, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 };
 
-CucmSQLSession.prototype.addFacInfo = function(jsonDATA, callback) {
+CucmSession.prototype.addFacInfo = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:addFacInfo><facInfo>%s</facInfo></ns:addFacInfo></soapenv:Body></soapenv:Envelope>'
 	
 	var XML_BODY = (!jsonDATA.authorizationcodename ? '' : '<name>' + jsonDATA.authorizationcodename + '</name>' +
@@ -1061,10 +1116,16 @@ CucmSQLSession.prototype.addFacInfo = function(jsonDATA, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 };
 
-CucmSQLSession.prototype.addSipTrunk = function(jsonDATA, callback) {
+CucmSession.prototype.addSipTrunk = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '">\
 		<soapenv:Header/>\
 		<soapenv:Body>\
@@ -1209,10 +1270,16 @@ CucmSQLSession.prototype.addSipTrunk = function(jsonDATA, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 };
 
-CucmSQLSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
+CucmSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '">\
 		<soapenv:Header/>\
 		<soapenv:Body>\
@@ -1293,10 +1360,16 @@ CucmSQLSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 };
 
-CucmSQLSession.prototype.addRoutePattern = function(jsonDATA, callback) {
+CucmSession.prototype.addRoutePattern = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '">\
 		<soapenv:Header/>\
 		<soapenv:Body>\
@@ -1389,10 +1462,16 @@ CucmSQLSession.prototype.addRoutePattern = function(jsonDATA, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 };
 
-CucmSQLSession.prototype.addSipRoutePattern = function(jsonDATA, callback) {
+CucmSession.prototype.addSipRoutePattern = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '">\
 		<soapenv:Header/>\
 		<soapenv:Body>\
@@ -1457,9 +1536,15 @@ CucmSQLSession.prototype.addSipRoutePattern = function(jsonDATA, callback) {
 			callback(e);
 		});
 	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
 	req.end(soapBody);
 };
 
 module.exports = function(cucmVersion, cucmServerUrl, cucmUser, cucmPassword) {
-	return new CucmSQLSession(cucmVersion, cucmServerUrl, cucmUser, cucmPassword);
+	return new CucmSession(cucmVersion, cucmServerUrl, cucmUser, cucmPassword);
 }
