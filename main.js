@@ -60,6 +60,25 @@ module.exports = (version, ipaddress, username, password, method) => {
 			});
 		});
 	};
+
+	service.getSipTrunksbyName = () => {
+		return new Promise((resolve, reject) => {
+			SQL = "select device.name from device left join typeclass on device.tkclass=typeclass.enum left join typemodel on device.tkmodel=typemodel.enum where typemodel.name = 'SIP Trunk'"
+			SQL = util.format(SQL);
+			service.cucm.query(SQL, function (err, response) {
+				if (Array.isArray(response)){
+					resolve(Object.keys(response).map(function(_) { return response[_]['name']; }));
+				}else if(response){
+					resolve([response.name])
+				}else{
+					reject(err);	
+				}	
+			});
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});
+		});
+	};
 	
 	service.getDevicePool = () => {
 		return new Promise((resolve, reject) => {
