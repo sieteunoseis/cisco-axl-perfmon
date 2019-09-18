@@ -41,15 +41,15 @@ CucmPerfmonSession.prototype.perfmonCollectCounterData = function(host,object,ca
 			res.setEncoding('utf8');
 			res.on('data', function(d) {
 				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
-						try {
-							callback(null, result['soapenv:Body']['ns:perfmonCollectCounterDataResponse']);    	
-						} catch(ex) {
-							callback(ex)
-						}
-					});
-				}
+			});
+			res.on('end', function() {
+				parseString(output, { explicitArray: false, explicitRoot: false, strict: false }, function (err, result) {
+					try {
+						callback(null, result['SOAPENV:BODY']['NS1:PERFMONCOLLECTCOUNTERDATARESPONSE']['NS1:PERFMONCOLLECTCOUNTERDATARETURN'];    	
+					} catch(ex) {
+						callback(ex)
+					}
+				});
 			});
 		}else{
 			callback('Status Code: ' + res.statusCode)
