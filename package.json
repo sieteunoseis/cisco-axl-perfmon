@@ -1,6 +1,6 @@
 {
   "name": "cisco-axl-rest",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "A Cisco AXL/REST Library",
   "main": "main.js",
   "scripts": {

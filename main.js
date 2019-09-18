@@ -1,12 +1,14 @@
 var util = require("util");
 var cucmsql = require('./cucm-axl');
 var cucRest = require('./cuc-rest');
+var cucmPerfmon = require('./cucm-perfmon');
 
 module.exports = (version, ipaddress, username, password, method) => {
 	const service = {};
 	service.cucm = cucmsql(version, ipaddress, username, password);
 	service.cucget = cucRest.get(ipaddress, username, password, method);
 	service.cucput = cucRest.put(ipaddress, username, password, method);
+	service.cucmperfmon = cucmPerfmon(ipaddress,username,password)
 	
 	service.getVersion = () => {
 		return new Promise((resolve, reject) => {
@@ -735,6 +737,21 @@ module.exports = (version, ipaddress, username, password, method) => {
 	service.addCucPut = (jsonData) => {
 		return new Promise((resolve, reject) => {
 			service.cucput.addCucPut(jsonData,function (err,response) {
+				if (response){
+					resolve(response)
+				}else{
+					reject(err);	
+				}
+			});	
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});	
+		});
+	};
+
+	service.getPerfmonCounterSipTrunk = (host,object) => {
+		return new Promise((resolve, reject) => {
+			service.cucmperfmon.perfmonCollectCounterData(host,object,function (err,response) {
 				if (response){
 					resolve(response)
 				}else{
