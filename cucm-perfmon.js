@@ -13,7 +13,7 @@ function CucmPerfmonSession(cucmServerUrl, cucmUser, cucmPassword) {
 			'Authorization': 'Basic ' + Buffer.from(cucmUser + ":" + cucmPassword).toString('base64'), 
 		'Content-Type': 'text/xml; charset=utf-8'
 	},
-	timeout: 10000, // Default: 120000 (2 minutes)
+	timeout: 120000, // Default: 120000 (2 minutes)
 	rejectUnauthorized: false          // required to accept self-signed certificate
 	}
 }
