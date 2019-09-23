@@ -749,9 +749,71 @@ module.exports = (version, ipaddress, username, password, method) => {
 		});
 	};
 
-	service.getPerfmonCounterSipTrunk = (host,object) => {
+	service.getPerfmonCounterData = (host,object) => {
 		return new Promise((resolve, reject) => {
 			service.cucmperfmon.perfmonCollectCounterData(host,object,function (err,response) {
+				if (response){
+					resolve(response)
+				}else{
+					reject(err);	
+				}
+			});	
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});	
+		});
+	};
+
+	service.getPerfmonSession = () => {
+		return new Promise((resolve, reject) => {
+			service.cucmperfmon.perfmonOpenSession(function (err,response) {
+				if (response){
+					resolve(response)
+				}else{
+					reject(err);	
+				}
+			});	
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});	
+		});
+	};
+
+	service.listPerfmonInstance = (host,object) => {
+		return new Promise((resolve, reject) => {
+			service.cucmperfmon.perfmonListInstance(host,object, function (err,response) {
+				if (Array.isArray(response)){
+					resolve(Object.keys(response).map(function(_) { return response[_]['NS1:NAME']; }));
+				}else if(response){
+					resolve(response)
+				}else{
+					reject(err);	
+				}	
+			});	
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});	
+		});
+	};
+
+	service.addPerfmonCounter = (sessionHandle, counterName) => {
+		return new Promise((resolve, reject) => {
+			service.cucmperfmon.perfmonAddCounter(sessionHandle, counterName, function (err,response) {
+				if (response){
+					resolve(response)
+				}else{
+					reject(err);	
+				}	
+			});	
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});	
+		});
+	};
+
+	service.getPerfmonSessionData = (sessionHandle) => {
+		return new Promise((resolve, reject) => {
+			service.cucmperfmon.perfmonCollectSessionData(sessionHandle,function (err,response) {
 				if (response){
 					resolve(response)
 				}else{
