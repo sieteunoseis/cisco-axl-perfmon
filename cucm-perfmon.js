@@ -56,10 +56,12 @@ CucmPerfmonSession.prototype.perfmonCollectCounterData = function(host,object,ca
 			// Set 60 second timeout before returning callback
 			setTimeout(() => {
 				callback('Status Code: ' + res.statusCode)
-			}, 60000); 
+			}, 120000); 
 		}
 		req.on('error', function(e) {
-			callback(e);
+			setTimeout(() => {
+				callback(e);
+			}, 10000); 
 		});
 	});
 	
