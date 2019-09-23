@@ -53,15 +53,10 @@ CucmPerfmonSession.prototype.perfmonCollectCounterData = function(host,object,ca
 				});
 			});
 		}else{
-			// Set 60 second timeout before returning callback
-			setTimeout(() => {
-				callback('Status Code: ' + res.statusCode)
-			}, 120000); 
+			callback('Status Code: ' + res.statusCode)
 		}
 		req.on('error', function(e) {
-			setTimeout(() => {
-				callback(e);
-			}, 10000); 
+			callback(e);
 		});
 	});
 	

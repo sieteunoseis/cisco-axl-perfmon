@@ -755,10 +755,16 @@ module.exports = (version, ipaddress, username, password, method) => {
 				if (response){
 					resolve(response)
 				}else{
-					reject(err);	
+					// Set up the timeout
+					setTimeout(function() {
+						reject('Promise timed out after ' + ms + ' ms');
+					}, 120000);	
 				}
 			});	
 			process.on('uncaughtException', function (err) {
+				reject(err);
+			});
+			process.on('ECONNRESET', function (err) {
 				reject(err);
 			});	
 		});

@@ -1,6 +1,6 @@
 {
   "name": "cisco-axl-rest-perfmon",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "A Cisco AXL, REST, & Perfmon Library",
   "main": "main.js",
   "scripts": {
