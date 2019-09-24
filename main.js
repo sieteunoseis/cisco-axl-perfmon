@@ -757,15 +757,21 @@ module.exports = (version, ipaddress, username, password, method) => {
 				}else{
 					// Set up the timeout
 					setTimeout(function() {
-						reject('Promise timed out after 120000 ms');
+						reject('Promise timed out after 120000 ms. ' + err);
 					}, 120000);	
 				}
 			});	
 			process.on('uncaughtException', function (err) {
-				reject(err);
+				// Set up the timeout
+				setTimeout(function() {
+					reject(err);
+				}, 120000);	
 			});
 			process.on('ECONNRESET', function (err) {
-				reject(err);
+				// Set up the timeout
+				setTimeout(function() {
+					reject(err);
+				}, 120000);	
 			});	
 		});
 	};
