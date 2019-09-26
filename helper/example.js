@@ -1,68 +1,57 @@
 const axlModule = require('../main.js')
 
 var settings = {
-    version: '12.0',
-    cucmip: '170.2.96.92',
-    cucmuser: 'wordenj',
-    cucmpass: 'Timbers2019!'
+    version: '10.5',
+    cucmip: '10.10.10.10',
+    cucmuser: 'axluser',
+    cucmpass: 'password'
 }
+
+var perfmonObject = 'Cisco SIP'
+var perfmonSessionID;
 
 
 var service = axlModule(settings.version, settings.cucmip, settings.cucmuser, settings.cucmpass);
-// Promise.map awaits for returned promises as well.
-// var ciscoSipCounters = service.getPerfmonCounterData('170.2.96.92','Cisco SIP').catch(err => {
-//     console.log(err)
-// });
 
-// ciscoSipCounters.then(function(result) {
-//     console.log(result) // "Some User token"
-// })
+var ciscoSipCounters = service.getPerfmonCounterData(settings.cucmip,perfmonObject).catch(err => {
+    console.log('ciscoSipCounters: ' + err)
+});
 
-// var ciscoPerfmonSession = service.getPerfmonSession().catch(err => {
-//     console.log(err)
-// });
+ciscoSipCounters.then(function(result) {
+    console.log('ciscoSipCounters: ' + result) // "Some User token"
+})
 
-// ciscoPerfmonSession.then(function(result) {
-//     console.log(result) // "Some User token"
-// })
+var ciscoPerfmonSession = service.getPerfmonSession().catch(err => {
+    console.log('ciscoPerfmonSession: ' + err)
+});
 
-// var ciscoPerfmonListInstance = service.listPerfmonInstance('170.2.96.92','Cisco SIP').catch(err => {
-//     console.log(err)
-// });
+ciscoPerfmonSession.then(function(result) {
+    console.log('ciscoPerfmonSession: ' + result) // "Some User token"
+    perfmonSessionID = result
+})
 
-// ciscoPerfmonListInstance.then(function(result) {
-//     console.log(result) // "Some User token"
-// })
+var ciscoPerfmonListInstance = service.listPerfmonInstance(settings.cucmip,perfmonObject).catch(err => {
+    console.log('ciscoPerfmonListInstance: ' + err)
+});
 
-// str = String.raw`\\170.2.96.93\Cisco SIP(MEX-SME-TRK1)\CallsActive` // "\\170.2.96.93\Cisco SIP(MEX-SME-TRK1)\CallsActive"
+ciscoPerfmonListInstance.then(function(result) {
+    console.log('ciscoPerfmonListInstance: ' + result) // "Some User token"
+})
 
-// var ciscoPerfmonAddCounter = service.addPerfmonCounter('e26cc072-de45-11e9-8000-005056a365be', str).catch(err => {
-//     console.log(err)
-// });
+str = String.raw`\\10.10.10.10\Cisco CallManager\CallsActive` //
 
-// ciscoPerfmonAddCounter.then(function(result) {
-//     console.log(result) // "Some User token"
-// })
+var ciscoPerfmonAddCounter = service.addPerfmonCounter('perfmonSessionID', str).catch(err => {
+    console.log('ciscoPerfmonAddCounter: ' + err)
+});
 
-// var ciscoPerfmonSessionData = service.getPerfmonSessionData('e26cc072-de45-11e9-8000-005056a365be').catch(err => {
-//     console.log(err)
-// });
+ciscoPerfmonAddCounter.then(function(result) {
+    console.log('ciscoPerfmonAddCounter: ' + result) // "Some User token"
+})
 
-// ciscoPerfmonSessionData.then(function(result) {
-//     console.log(result)
-// })
+var ciscoPerfmonSessionData = service.getPerfmonSessionData(perfmonSessionID).catch(err => {
+    console.log('ciscoPerfmonSessionData: ' + err)
+});
 
-function getSessionData(){
-    var ciscoSipCounters = service.getPerfmonCounterData('170.2.96.92','Cisco SIP').catch(err => {
-        console.log(err)
-    });
-
-    ciscoSipCounters.then(function(result) {
-        console.log(result) // "Some User token"
-    })
-
-    // call this function again in 10000ms
-    setInterval(getSessionData, 15000);
-}
-
-getSessionData()
+ciscoPerfmonSessionData.then(function(result) {
+    console.log('ciscoPerfmonSessionData: ' + result)
+})

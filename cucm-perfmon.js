@@ -46,7 +46,11 @@ CucmPerfmonSession.prototype.perfmonCollectCounterData = function(host,object,ca
 			res.on('end', function() {
 				parseString(output, { explicitArray: false, explicitRoot: false, strict: false }, function (err, result) {
 					try {
-						callback(null, result['SOAPENV:BODY']['NS1:PERFMONCOLLECTCOUNTERDATARESPONSE']['NS1:PERFMONCOLLECTCOUNTERDATARETURN'])    	
+						if (result['SOAPENV:BODY']['NS1:PERFMONCOLLECTCOUNTERDATARESPONSE']['NS1:PERFMONCOLLECTCOUNTERDATARETURN']){
+							callback(null, result['SOAPENV:BODY']['NS1:PERFMONCOLLECTCOUNTERDATARESPONSE']['NS1:PERFMONCOLLECTCOUNTERDATARETURN'])    	
+						}else{
+							callback('No results found')
+						}
 					} catch(ex) {
 						callback(ex)
 					}

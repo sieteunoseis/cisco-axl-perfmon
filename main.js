@@ -755,10 +755,7 @@ module.exports = (version, ipaddress, username, password, method) => {
 				if (response){
 					resolve(response)
 				}else{
-					// Set up the timeout
-					setTimeout(function() {
-						reject('Promise timed out after 120000 ms. ' + err);
-					}, 120000);	
+					reject(err)
 				}
 			});	
 			process.on('uncaughtException', function (err) {
