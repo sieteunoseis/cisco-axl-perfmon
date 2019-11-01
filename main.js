@@ -175,6 +175,26 @@ module.exports = (version, ipaddress, username, password, method) => {
 			});		
 		});
 	};
+
+	service.getFacCodes = (facCodeArr) => {
+		return new Promise((resolve, reject) => {
+			SQL = "select code from facinfo where code in ('" + facCodeArr.toString().replace(/,/g,"','") + "')"
+			SQL = util.format(SQL);
+			service.cucm.query(SQL, function (err, response) {
+				if (Array.isArray(response)){
+					resolve(Object.keys(response).map(function(_) { return response[_]['code']; }));
+				}else if(response){
+					resolve([response.code])
+				}else{
+					reject(err);	
+				}
+			});
+
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});		
+		});
+	};
 	
 	service.getLocation = () => {
 		return new Promise((resolve, reject) => {
