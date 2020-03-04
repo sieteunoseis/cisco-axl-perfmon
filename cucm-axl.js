@@ -36,23 +36,20 @@ CucmSession.prototype.query = function(SQL, callback) {
 	options.agent = new https.Agent({ keepAlive: false });
 	
 	var req = https.request(options, function(res) {
-		if (res.statusCode == 200){
-			res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
-						try {
-							callback(null, result['soapenv:Body']['ns:executeSQLQueryResponse']['return']['row']);    	
-						} catch(ex) {
-							callback(ex)
-						}
-					});
-				}
-			});
-		}else{
-			callback('Status Code: ' + res.statusCode)
-		}
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
+					try {
+						callback(null, result['soapenv:Body']['ns:executeSQLQueryResponse']['return']['row']);    	
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			}
+		});
+
 		req.on('error', function(e) {
 			callback(e);
 		});
@@ -436,23 +433,19 @@ CucmSession.prototype.addLine = function(jsonDATA, callback) {
 	options.headers.SOAPAction += ' addLine'
 	
 	var req = https.request(options, function(res) {
-		if (res.statusCode == 200){
-			res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
-						try {
-							callback(null, result['soapenv:Body']);  
-						} catch(ex) {
-							callback(ex)
-						}
-					});
-				}
-			});
-		}else{
-			callback('Status Code: ' + res.statusCode)
-		}
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
+					try {
+						callback(null, result['soapenv:Body']);  
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			}
+		});
 		req.on('error', function(e) {
 			callback(e);
 		});
@@ -483,6 +476,10 @@ CucmSession.prototype.addUser = function(jsonDATA, callback) {
 	(!jsonDATA.userlocale ? '' : '<userLocale>' + jsonDATA.userlocale  + '</userLocale>') +
 	(!jsonDATA.controlleddevice1 ? '' : '<associatedDevices>') +
 	(!jsonDATA.controlleddevice1 ? '' : '<device>' + jsonDATA.controlleddevice1 + '</device>') +
+	(!jsonDATA.controlleddevice2 ? '' : '<device>' + jsonDATA.controlleddevice2 + '</device>') +
+	(!jsonDATA.controlleddevice3 ? '' : '<device>' + jsonDATA.controlleddevice3 + '</device>') +
+	(!jsonDATA.controlleddevice4 ? '' : '<device>' + jsonDATA.controlleddevice4 + '</device>') +
+	(!jsonDATA.controlleddevice5 ? '' : '<device>' + jsonDATA.controlleddevice5 + '</device>') +
 	(!jsonDATA.controlleddevice1 ? '' : '</associatedDevices>') +
 	(!jsonDATA.primaryextension ? '' : '<primaryExtension>') +
 	(!jsonDATA.primaryextension ? '' : '<pattern>' + jsonDATA.primaryextension.split(" ")[0] + '</pattern>') +
@@ -556,16 +553,14 @@ CucmSession.prototype.addUser = function(jsonDATA, callback) {
 	var output = "";
 	var options = this._OPTIONS;
 	options.agent = new https.Agent({ keepAlive: false });
-	
-	console.log(options.headers)
-	
-	options.headers.SOAPAction += ' addUser'
+
+	options.headers.SOAPAction += ' addUser"'
 	
 	var req = https.request(options, function(res) {
-		if (res.statusCode == 200){
-			res.setEncoding('utf8');
+		res.setEncoding('utf8');
 			res.on('data', function(d) {
 				output = output + d;
+				console.log(output)
 				if (output.length == res.headers['content-length']) {
 					parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
 						try {
@@ -575,10 +570,7 @@ CucmSession.prototype.addUser = function(jsonDATA, callback) {
 						}
 					});
 				}
-			});
-		}else{
-			callback('Status Code: ' + res.statusCode)
-		}
+		});
 		req.on('error', function(e) {
 			callback(e);
 		});
@@ -609,6 +601,10 @@ CucmSession.prototype.updateUser = function(jsonDATA, callback) {
 	(!jsonDATA.userlocale ? '' : '<userLocale>' + jsonDATA.userlocale  + '</userLocale>') +
 	(!jsonDATA.controlleddevice1 ? '' : '<associatedDevices>') +
 	(!jsonDATA.controlleddevice1 ? '' : '<device>' + jsonDATA.controlleddevice1 + '</device>') +
+	(!jsonDATA.controlleddevice2 ? '' : '<device>' + jsonDATA.controlleddevice2 + '</device>') +
+	(!jsonDATA.controlleddevice3 ? '' : '<device>' + jsonDATA.controlleddevice3 + '</device>') +
+	(!jsonDATA.controlleddevice4 ? '' : '<device>' + jsonDATA.controlleddevice4 + '</device>') +
+	(!jsonDATA.controlleddevice5 ? '' : '<device>' + jsonDATA.controlleddevice5 + '</device>') +
 	(!jsonDATA.controlleddevice1 ? '' : '</associatedDevices>') +
 	(!jsonDATA.primaryextension ? '' : '<primaryExtension>') +
 	(!jsonDATA.primaryextension ? '' : '<pattern>' + jsonDATA.primaryextension.split(" ")[0] + '</pattern>') +
@@ -686,8 +682,7 @@ CucmSession.prototype.updateUser = function(jsonDATA, callback) {
 	options.headers.SOAPAction += ' updateUser'
 	
 	var req = https.request(options, function(res) {
-		if (res.statusCode == 200){
-			res.setEncoding('utf8');
+		res.setEncoding('utf8');
 			res.on('data', function(d) {
 				output = output + d;
 				if (output.length == res.headers['content-length']) {
@@ -699,10 +694,7 @@ CucmSession.prototype.updateUser = function(jsonDATA, callback) {
 						}
 					});
 				}
-			});
-		}else{
-			callback('Status Code: ' + res.statusCode)
-		}
+		});
 		req.on('error', function(e) {
 			callback(e);
 		});
@@ -818,8 +810,7 @@ CucmSession.prototype.addDeviceProfile = function(jsonDATA, callback) {
 	options.headers.SOAPAction += ' addDeviceProfile'
 	
 	var req = https.request(options, function(res) {
-		if (res.statusCode == 200){
-			res.setEncoding('utf8');
+		res.setEncoding('utf8');
 			res.on('data', function(d) {
 				output = output + d;
 				if (output.length == res.headers['content-length']) {
@@ -831,10 +822,7 @@ CucmSession.prototype.addDeviceProfile = function(jsonDATA, callback) {
 						}
 					});
 				}
-			});
-		}else{
-			callback('Status Code: ' + res.statusCode)
-		}
+		});
 		req.on('error', function(e) {
 			callback(e);
 		});
@@ -935,23 +923,19 @@ CucmSession.prototype.addRDP = function(jsonDATA, callback) {
 	options.headers.SOAPAction += ' addRemoteDestinationProfile'
 	
 	var req = https.request(options, function(res) {
-		if (res.statusCode == 200){
-			res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
-						try {
-							callback(null, result['soapenv:Body']);  
-						} catch(ex) {
-							callback(ex)
-						}
-					});
-				}
-			});
-		}else{
-			callback('Status Code: ' + res.statusCode)
-		}
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
+					try {
+						callback(null, result['soapenv:Body']);  
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			}
+		});
 		req.on('error', function(e) {
 			callback(e);
 		});
@@ -1021,23 +1005,19 @@ CucmSession.prototype.addRDI = function(jsonDATA, callback) {
 	options.headers.SOAPAction += ' addRemoteDestination'
 	
 	var req = https.request(options, function(res) {
-		if (res.statusCode == 200){
-			res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
-						try {
-							callback(null, result['soapenv:Body']);  
-						} catch(ex) {
-							callback(ex)
-						}
-					});
-				}
-			});
-		}else{
-			callback('Status Code: ' + res.statusCode)
-		}
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
+					try {
+						callback(null, result['soapenv:Body']);  
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			}
+		});
 		req.on('error', function(e) {
 			callback(e);
 		});
@@ -1080,23 +1060,19 @@ CucmSession.prototype.addAdvertisedPattern = function(jsonDATA, callback) {
 	options.headers.SOAPAction += ' addAdvertisedPatterns'
 	
 	var req = https.request(options, function(res) {
-		if (res.statusCode == 200){
-			res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
-						try {
-							callback(null, result['soapenv:Body']);  
-						} catch(ex) {
-							callback(ex)
-						}
-					});
-				}
-			});
-		}else{
-			callback('Status Code: ' + res.statusCode)
-		}
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
+					try {
+						callback(null, result['soapenv:Body']);  
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			}
+		});
 		req.on('error', function(e) {
 			callback(e);
 		});
@@ -1135,23 +1111,19 @@ CucmSession.prototype.addFacInfo = function(jsonDATA, callback) {
 	options.headers.SOAPAction += ' addFacInfo'
 	
 	var req = https.request(options, function(res) {
-		if (res.statusCode == 200){
-			res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
-						try {
-							callback(null, result['soapenv:Body']);  
-						} catch(ex) {
-							callback(ex)
-						}
-					});
-				}
-			});
-		}else{
-			callback('Status Code: ' + res.statusCode)
-		}
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
+					try {
+						callback(null, result['soapenv:Body']);  
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			}
+		});
 		req.on('error', function(e) {
 			callback(e);
 		});
@@ -1293,23 +1265,19 @@ CucmSession.prototype.addSipTrunk = function(jsonDATA, callback) {
 	options.headers.SOAPAction += ' addSipTrunk'
 	
 	var req = https.request(options, function(res) {
-		if (res.statusCode == 200){
-			res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
-						try {
-							callback(null, result['soapenv:Body']);  
-						} catch(ex) {
-							callback(ex)
-						}
-					});
-				}
-			});
-		}else{
-			callback('Status Code: ' + res.statusCode)
-		}
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
+					try {
+						callback(null, result['soapenv:Body']);  
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			}
+		});
 		req.on('error', function(e) {
 			callback(e);
 		});
@@ -1366,8 +1334,6 @@ CucmSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 	(!jsonDATA.useoriginatorscallingsearchspace ? '' : '<useOriginatorCss>' + jsonDATA.useoriginatorscallingsearchspace + '</useOriginatorCss>') +
 	(!jsonDATA.donotwaitforinterdigittimeoutonsubsequenthops ? '' : '<dontWaitForIDTOnSubsequentHops>' + jsonDATA.donotwaitforinterdigittimeoutonsubsequenthops + '</dontWaitForIDTOnSubsequentHops>')
 	
-		
-		
 	// FIND undefined VALUES		
 	var find = 'undefined';
 	var re = new RegExp(find, 'g');
@@ -1387,23 +1353,19 @@ CucmSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 	options.headers.SOAPAction += ' addTransPattern'
 	
 	var req = https.request(options, function(res) {
-		if (res.statusCode == 200){
-			res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
-						try {
-							callback(null, result['soapenv:Body']);  
-						} catch(ex) {
-							callback(ex)
-						}
-					});
-				}
-			});
-		}else{
-			callback('Status Code: ' + res.statusCode)
-		}
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
+					try {
+						callback(null, result['soapenv:Body']);  
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			}
+		});
 		req.on('error', function(e) {
 			callback(e);
 		});
@@ -1493,23 +1455,19 @@ CucmSession.prototype.addRoutePattern = function(jsonDATA, callback) {
 	options.headers.SOAPAction += ' addRoutePattern'
 	
 	var req = https.request(options, function(res) {
-		if (res.statusCode == 200){
-			res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
-						try {
-							callback(null, result['soapenv:Body']);  
-						} catch(ex) {
-							callback(ex)
-						}
-					});
-				}
-			});
-		}else{
-			callback('Status Code: ' + res.statusCode)
-		}
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
+					try {
+						callback(null, result['soapenv:Body']);  
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			}
+		});
 		req.on('error', function(e) {
 			callback(e);
 		});
@@ -1551,7 +1509,6 @@ CucmSession.prototype.addSipRoutePattern = function(jsonDATA, callback) {
 	(!jsonDATA.domainroutingcallingsearchspace ? '' : '<domainRoutingCssName>' + jsonDATA.domainroutingcallingsearchspace + '</domainRoutingCssName>') +
 	(!jsonDATA.siptrunk ? '' : '<sipTrunkName>' + jsonDATA.siptrunk + '</sipTrunkName>')
 		
-		
 	// FIND undefined VALUES		
 	var find = 'undefined';
 	var re = new RegExp(find, 'g');
@@ -1571,23 +1528,19 @@ CucmSession.prototype.addSipRoutePattern = function(jsonDATA, callback) {
 	options.headers.SOAPAction += ' addSipRoutePattern'
 	
 	var req = https.request(options, function(res) {
-		if (res.statusCode == 200){
-			res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
-						try {
-							callback(null, result['soapenv:Body']);  
-						} catch(ex) {
-							callback(ex)
-						}
-					});
-				}
-			});
-		}else{
-			callback('Status Code: ' + res.statusCode)
-		}
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				parseString(output, { explicitArray: false, explicitRoot: false }, function (err, result) {
+					try {
+						callback(null, result['soapenv:Body']);  
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			}
+		});
 		req.on('error', function(e) {
 			callback(e);
 		});

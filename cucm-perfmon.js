@@ -10,7 +10,7 @@ function CucmPerfmonSession(cucmServerUrl, cucmUser, cucmPassword) {
 	method: 'POST',      // AXL Requires POST messages
 	headers: {
 		'SOAPAction': '',
-			'Authorization': 'Basic ' + Buffer.from(cucmUser + ":" + cucmPassword).toString('base64'), 
+		'Authorization': 'Basic ' + Buffer.from(cucmUser + ":" + cucmPassword).toString('base64'), 
 		'Content-Type': 'text/xml; charset=utf-8'
 	},
 	timeout: 120000, // Default: 120000 (2 minutes)
