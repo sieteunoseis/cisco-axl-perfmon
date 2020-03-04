@@ -15,8 +15,10 @@ function CucmSession(cucmVersion, cucmServerUrl, cucmUser, cucmPassword) {
 	path: '/axl/',       // This is the URL for accessing axl on the server
 	method: 'POST',      // AXL Requires POST messages
 	headers: {
-		'SOAPAction': 'CUCM:DB ver=' + cucmVersion,
-			'Authorization': 'Basic ' + Buffer.from(cucmUser + ":" + cucmPassword).toString('base64'), 
+		//SOAPAction= ["CUCM:DB ver=12.0"] Coming across like this need to make a string
+		//'SOAPAction':'"CUCM:DB ver=11.5 listCss"',
+		'SOAPAction': '"CUCM:DB ver=' + cucmVersion.toString() + '"',
+		'Authorization': 'Basic ' + Buffer.from(cucmUser + ":" + cucmPassword).toString('base64'), 
 		'Content-Type': 'text/xml; charset=utf-8'
 	},
 	timeout: 120000, // Default: 120000 (2 minutes)
@@ -554,6 +556,8 @@ CucmSession.prototype.addUser = function(jsonDATA, callback) {
 	var output = "";
 	var options = this._OPTIONS;
 	options.agent = new https.Agent({ keepAlive: false });
+	
+	console.log(options.headers)
 	
 	options.headers.SOAPAction += ' addUser'
 	
