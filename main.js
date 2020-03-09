@@ -150,7 +150,6 @@ module.exports = (version, ipaddress, username, password, method) => {
 					reject(err);	
 				}
 			});
-
 			process.on('uncaughtException', function (err) {
 				reject(err);
 			});		
@@ -545,9 +544,9 @@ module.exports = (version, ipaddress, username, password, method) => {
 	service.addPhone = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.addPhone(jsonDATA, function (err, response) {
-				if(response['soapenv:Fault']){
-					reject(response['soapenv:Fault']['faultstring'])
-				}else {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
 					resolve(response);
 				}
 			});
@@ -560,9 +559,9 @@ module.exports = (version, ipaddress, username, password, method) => {
 	service.addLine = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.addLine(jsonDATA, function (err, response) {
-				if(response['soapenv:Fault']){
-					reject(response['soapenv:Fault']['faultstring'])
-				}else {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
 					resolve(response);
 				}
 			});
@@ -575,9 +574,9 @@ module.exports = (version, ipaddress, username, password, method) => {
 	service.addAdvertisedPattern = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.addAdvertisedPattern(jsonDATA, function (err, response) {
-				if(response['soapenv:Fault']){
-					reject(response['soapenv:Fault']['faultstring'])
-				}else {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
 					resolve(response);
 				}
 			});
@@ -590,9 +589,9 @@ module.exports = (version, ipaddress, username, password, method) => {
 	service.addFacInfo = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.addFacInfo(jsonDATA, function (err, response) {
-				if(response['soapenv:Fault']){
-					reject(response['soapenv:Fault']['faultstring'])
-				}else {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
 					resolve(response);
 				}
 			});
@@ -605,9 +604,9 @@ module.exports = (version, ipaddress, username, password, method) => {
 	service.addSipTrunk = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.addSipTrunk(jsonDATA, function (err, response) {
-				if(response['soapenv:Fault']){
-					reject(response['soapenv:Fault']['faultstring'])
-				}else {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
 					resolve(response);
 				}
 			});
@@ -620,9 +619,9 @@ module.exports = (version, ipaddress, username, password, method) => {
 	service.addTranslationPattern = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.addTranslationPattern(jsonDATA, function (err, response) {
-				if(response['soapenv:Fault']){
-					reject(response['soapenv:Fault']['faultstring'])
-				}else {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
 					resolve(response);
 				}
 			});
@@ -635,9 +634,9 @@ module.exports = (version, ipaddress, username, password, method) => {
 	service.addRoutePattern = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.addRoutePattern(jsonDATA, function (err, response) {
-				if(response['soapenv:Fault']){
-					reject(response['soapenv:Fault']['faultstring'])
-				}else {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
 					resolve(response);
 				}
 			});
@@ -650,9 +649,9 @@ module.exports = (version, ipaddress, username, password, method) => {
 	service.addSipRoutePattern = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.addSipRoutePattern(jsonDATA, function (err, response) {
-				if(response['soapenv:Fault']){
-					reject(response['soapenv:Fault']['faultstring'])
-				}else {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
 					resolve(response);
 				}
 			});
@@ -661,13 +660,13 @@ module.exports = (version, ipaddress, username, password, method) => {
 			});		
 		});
 	};
-	
+
 	service.addUser = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.addUser(jsonDATA, function (err, response) {
-				if(response['soapenv:Fault']){
-					reject(response['soapenv:Fault']['faultstring'])
-				}else {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
 					resolve(response);
 				}
 			});
@@ -680,9 +679,9 @@ module.exports = (version, ipaddress, username, password, method) => {
 	service.updateUser = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.updateUser(jsonDATA, function (err, response) {
-				if(response['soapenv:Fault']){
-					reject(response['soapenv:Fault']['faultstring'])
-				}else {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
 					resolve(response);
 				}
 			});
@@ -695,9 +694,9 @@ module.exports = (version, ipaddress, username, password, method) => {
 	service.addDeviceProfile = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.addDeviceProfile(jsonDATA, function (err, response) {
-				if(response['soapenv:Fault']){
-					reject(response['soapenv:Fault']['faultstring'])
-				}else {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
 					resolve(response);
 				}
 			});
@@ -710,9 +709,9 @@ module.exports = (version, ipaddress, username, password, method) => {
 	service.addRDP = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.addRDP(jsonDATA, function (err, response) {
-				if(response['soapenv:Fault']){
-					reject(response['soapenv:Fault']['faultstring'])
-				}else {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
 					resolve(response);
 				}
 			});
@@ -725,9 +724,9 @@ module.exports = (version, ipaddress, username, password, method) => {
 	service.addRDI = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.addRDI(jsonDATA, function (err, response) {
-				if(response['soapenv:Fault']){
-					reject(response['soapenv:Fault']['faultstring'])
-				}else {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
 					resolve(response);
 				}
 			});
