@@ -43,7 +43,7 @@ CucmSession.prototype.query = function(SQL, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']['ns:executeSQLQueryResponse']['return']['row']); }
+							else { callback(null, result['soapenv:Body']['ns:executeSQLQueryResponse']['return']['row']); }
 						});
 					} catch (err) { callback(err); }
 				}
@@ -241,7 +241,7 @@ CucmSession.prototype.addPhone = function(jsonDATA, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']); }
+							else { callback(null, result['soapenv:Body']); }
 						});
 					} catch (err) { callback(err); }
 				}
@@ -434,7 +434,7 @@ CucmSession.prototype.addLine = function(jsonDATA, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']); }
+							else { callback(null, result['soapenv:Body']); }
 						});
 					} catch (err) { callback(err); }
 				}
@@ -557,7 +557,7 @@ CucmSession.prototype.addUser = function(jsonDATA, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']); }
+							else { callback(null, result['soapenv:Body']); }
 						});
 					} catch (err) { callback(err); }
 				}
@@ -680,7 +680,7 @@ CucmSession.prototype.updateUser = function(jsonDATA, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']); }
+							else { callback(null, result['soapenv:Body']); }
 						});
 					} catch (err) { callback(err); }
 				}
@@ -807,7 +807,7 @@ CucmSession.prototype.addDeviceProfile = function(jsonDATA, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']); }
+							else { callback(null, result['soapenv:Body']); }
 						});
 					} catch (err) { callback(err); }
 				}
@@ -919,7 +919,7 @@ CucmSession.prototype.addRDP = function(jsonDATA, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']); }
+							else { callback(null, result['soapenv:Body']); }
 						});
 					} catch (err) { callback(err); }
 				}
@@ -1000,7 +1000,7 @@ CucmSession.prototype.addRDI = function(jsonDATA, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']); }
+							else { callback(null, result['soapenv:Body']); }
 						});
 					} catch (err) { callback(err); }
 				}
@@ -1054,7 +1054,7 @@ CucmSession.prototype.addAdvertisedPattern = function(jsonDATA, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']); }
+							else { callback(null, result['soapenv:Body']); }
 						});
 					} catch (err) { callback(err); }
 				}
@@ -1104,7 +1104,7 @@ CucmSession.prototype.addFacInfo = function(jsonDATA, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']); }
+							else { callback(null, result['soapenv:Body']); }
 						});
 					} catch (err) { callback(err); }
 				}
@@ -1257,7 +1257,7 @@ CucmSession.prototype.addSipTrunk = function(jsonDATA, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']); }
+							else { callback(null, result['soapenv:Body']); }
 						});
 					} catch (err) { callback(err); }
 				}
@@ -1344,7 +1344,7 @@ CucmSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']); }
+							else { callback(null, result['soapenv:Body']); }
 						});
 					} catch (err) { callback(err); }
 				}
@@ -1445,7 +1445,7 @@ CucmSession.prototype.addRoutePattern = function(jsonDATA, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']); }
+							else { callback(null, result['soapenv:Body']); }
 						});
 					} catch (err) { callback(err); }
 				}
@@ -1517,7 +1517,7 @@ CucmSession.prototype.addSipRoutePattern = function(jsonDATA, callback) {
 					try {
 						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
 							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(result['soapenv:Body']); }
+							else { callback(null, result['soapenv:Body']); }
 						});
 					} catch (err) { callback(err); }
 				}
