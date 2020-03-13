@@ -15,8 +15,6 @@ function CucmSession(cucmVersion, cucmServerUrl, cucmUser, cucmPassword) {
 	path: '/axl/',       // This is the URL for accessing axl on the server
 	method: 'POST',      // AXL Requires POST messages
 	headers: {
-		//SOAPAction= ["CUCM:DB ver=12.0"] Coming across like this need to make a string
-		//'SOAPAction':'"CUCM:DB ver=11.5 listCss"',
 		'SOAPAction': 'CUCM:DB ver=' + cucmVersion.toString(),
 		'Authorization': 'Basic ' + Buffer.from(cucmUser + ":" + cucmPassword).toString('base64'), 
 		'Content-Type': 'text/xml; charset=utf-8'
@@ -27,7 +25,6 @@ function CucmSession(cucmVersion, cucmServerUrl, cucmUser, cucmPassword) {
 }
 
 CucmSession.prototype.query = function(SQL, callback) {
-	// The user needs to make sure they are sending safe SQL to the communications manager.
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:executeSQLQuery><sql>%s</sql></ns:executeSQLQuery></soapenv:Body></soapenv:Envelope>';
 	var XML = util.format(XML_ENVELOPE, SQL);
 	var soapBody = Buffer.from(XML);
@@ -62,7 +59,6 @@ CucmSession.prototype.query = function(SQL, callback) {
 };
 
 CucmSession.prototype.addPhone = function(jsonDATA, callback) {
-	// The user needs to make sure they are sending safe SQL to the communications manager.
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:addPhone><phone>%s</phone></ns:addPhone></soapenv:Body></soapenv:Envelope>';
 	
 	var XML_BODY = (!jsonDATA.devicename ? '' : '<name>' + jsonDATA.devicename + '</name>' +
@@ -473,6 +469,10 @@ CucmSession.prototype.addUser = function(jsonDATA, callback) {
 	(!jsonDATA.controlleddevice3 ? '' : '<device>' + jsonDATA.controlleddevice3 + '</device>') +
 	(!jsonDATA.controlleddevice4 ? '' : '<device>' + jsonDATA.controlleddevice4 + '</device>') +
 	(!jsonDATA.controlleddevice5 ? '' : '<device>' + jsonDATA.controlleddevice5 + '</device>') +
+	(!jsonDATA.controlleddevice6 ? '' : '<device>' + jsonDATA.controlleddevice6 + '</device>') +
+	(!jsonDATA.controlleddevice7 ? '' : '<device>' + jsonDATA.controlleddevice7 + '</device>') +
+	(!jsonDATA.controlleddevice8 ? '' : '<device>' + jsonDATA.controlleddevice8 + '</device>') +
+	(!jsonDATA.controlleddevice9 ? '' : '<device>' + jsonDATA.controlleddevice9 + '</device>') +
 	(!jsonDATA.controlleddevice1 ? '' : '</associatedDevices>') +
 	(!jsonDATA.primaryextension ? '' : '<primaryExtension>') +
 	(!jsonDATA.primaryextension ? '' : '<pattern>' + jsonDATA.primaryextension.split(" ")[0] + '</pattern>') +
@@ -486,7 +486,12 @@ CucmSession.prototype.addUser = function(jsonDATA, callback) {
 	(!jsonDATA.accesscontrolgroup1 ? '' : '</associatedGroups>') +
 	(!jsonDATA.controlledprofile1 ? '' : '<associatedRemoteDestinationProfiles>') +
 	(!jsonDATA.controlledprofile1 ? '' : '<remoteDestinationProfile>' + jsonDATA.controlledprofile1 + '</remoteDestinationProfile>') +
+	(!jsonDATA.controlledprofile2 ? '' : '<remoteDestinationProfile>' + jsonDATA.controlledprofile2 + '</remoteDestinationProfile>') +
+	(!jsonDATA.controlledprofile3 ? '' : '<remoteDestinationProfile>' + jsonDATA.controlledprofile3 + '</remoteDestinationProfile>') +
 	(!jsonDATA.controlledprofile1 ? '' : '</associatedRemoteDestinationProfiles>') +
+	(!jsonDATA.cticontrolledprofile1 ? '' : '<ctiControlledDeviceProfiles>') +
+	(!jsonDATA.cticontrolledprofile1 ? '' : '<profileName>' + jsonDATA.cticontrolledprofile1 + '</profileName>') +
+	(!jsonDATA.cticontrolledprofile1 ? '' : '</ctiControlledDeviceProfiles>') +
 	(!jsonDATA.allowcontrolofdevicefromcti ? '' : '<enableCti>' + jsonDATA.allowcontrolofdevicefromcti + '</enableCti>') +
 	(!jsonDATA.digestcredentials ? '' : '<digestCredentials>' + jsonDATA.digestcredentials + '</digestCredentials>') +
 	(!jsonDATA.defaultprofile ? '' : '<phoneProfiles><profileName>' + jsonDATA.defaultprofile + '</profileName></phoneProfiles>') +
@@ -497,20 +502,20 @@ CucmSession.prototype.addUser = function(jsonDATA, callback) {
 	(!jsonDATA.enablemobilevoiceaccess ? '' : '<enableMobileVoiceAccess>'+jsonDATA.enablemobilevoiceaccess+'</enableMobileVoiceAccess>') +
 	(!jsonDATA.maximumwaittimefordeskpickup ? '' : '<maxDeskPickupWaitTime>' + jsonDATA.maximumwaittimefordeskpickup + '</maxDeskPickupWaitTime>') +
 	(!jsonDATA.remotedestinationlimit ? '' : '<remoteDestinationLimit>'+jsonDATA.remotedestinationlimit+'</remoteDestinationLimit>') +
-	'<passwordCredentials>' +
+	(!jsonDATA.passwordauthenticationrule ? '' : '<passwordCredentials>') +
 	(!jsonDATA.passwordauthenticationrule ? '' : '<pwdCredPolicyName>' + jsonDATA.passwordauthenticationrule + '</pwdCredPolicyName>') +
 	(!jsonDATA.passwordcantchange ? '' : '<pwdCredUserCantChange>' + jsonDATA.passwordcantchange + '</pwdCredUserCantChange>') +
 	(!jsonDATA.passwordmustchangeatnextlogin ? '' : '<pwdCredUserMustChange>' + jsonDATA.passwordmustchangeatnextlogin + '</pwdCredUserMustChange>') +
 	(!jsonDATA.passworddoesnotexpire ? '' : '<pwdCredDoesNotExpire>' + jsonDATA.passworddoesnotexpire + '</pwdCredDoesNotExpire>') +
 	(!jsonDATA.passwordlockedbyadmin ? '' : '<pwdCredLockedByAdministrator>' + jsonDATA.passwordlockedbyadmin + '</pwdCredLockedByAdministrator>') +
-	'</passwordCredentials>' +
-	'<pinCredentials>' +
+	(!jsonDATA.passwordauthenticationrule ? '' : '</passwordCredentials>') +
+	(!jsonDATA.pinauthenticationrule ? '' : '<pinCredentials>') +
 	(!jsonDATA.pinauthenticationrule ? '' : '<pinCredPolicyName>' + jsonDATA.pinauthenticationrule + '</pinCredPolicyName>') +
 	(!jsonDATA.pincantchange ? '' : '<pinCredUserCantChange>' + jsonDATA.pincantchange + '</pinCredUserCantChange>') +
 	(!jsonDATA.pinmustchangeatnextlogin ? '' : '<pinCredUserMustChange>' + jsonDATA.pinmustchangeatnextlogin + '</pinCredUserMustChange>') +
 	(!jsonDATA.pindoesnotexpire ? '' : '<pinCredDoesNotExpire>' + jsonDATA.pindoesnotexpire + '</pinCredDoesNotExpire>') +
 	(!jsonDATA.pinlockedbyadmin ? '' : '<pinCredLockedByAdministrator>' + jsonDATA.pinlockedbyadmin + '</pinCredLockedByAdministrator>') +
-	'</pinCredentials>' +
+	(!jsonDATA.pinauthenticationrule ? '' : '</pinCredentials>') +
 	(!jsonDATA.enableemcc ? '' : '<enableEmcc>' + jsonDATA.enableemcc + '</enableEmcc>') +
 	(!jsonDATA.mlpppassword ? '' : '<mlppPassword>' + jsonDATA.mlpppassword + '</mlppPassword>') +
 	(!jsonDATA.homecluster ? '' : '<homeCluster>'+jsonDATA.homecluster+'</homeCluster>') +
@@ -523,14 +528,12 @@ CucmSession.prototype.addUser = function(jsonDATA, callback) {
 	(!jsonDATA.homenumber ? '' : '<homeNumber>' + jsonDATA.homenumber + '</homeNumber>') +
 	(!jsonDATA.pagernumber ? '' : '<pagerNumber>' + jsonDATA.pagernumber + '</pagerNumber>') +
 	(!jsonDATA.userprofile ? '' : '<userProfile>' + jsonDATA.userprofile  + '</userProfile>'))
-	//LDAP
-	//(!jsonDATA.userid ? '' : '<ldapDirectoryName>' + jsonDATA.userid + '</ldapDirectoryName>') +
-	// 12.X
-	//(!jsonDATA.enableusertohostconferencenow ? '' : '<enableUserToHostConferenceNow>false</enableUserToHostConferenceNow>') +
-	//(!jsonDATA.attendeesaccesscode ? '' : '<attendeesAccessCode>' +  + '</attendeesAccessCode>') +
-	
-	// <calendarPresence>false</calendarPresence>
-	// Include meeting information in presence(Requires Exchange Presence Gateway to be configured on CUCM IM and Presence server)
+	// 12.0 Only Tags
+	if (this._version.version > 12){
+		(!jsonDATA.enableusertohostconferencenow ? '' : '<enableUserToHostConferenceNow>' + jsonDATA.enableusertohostconferencenow + '</enableUserToHostConferenceNow>') +
+		(!jsonDATA.attendeesaccesscode ? '' : '<attendeesAccessCode>' + jsonDATA.attendeesaccesscode + '</attendeesAccessCode>') +
+		(!jsonDATA.includemeetinginformationinpresence ? '' : '<calendarPresence>' + jsonDATA.includemeetinginformationinpresence + '</calendarPresence>')
+	}
 	
 	var find = 'undefined';
 	var re = new RegExp(find, 'g');
@@ -596,6 +599,10 @@ CucmSession.prototype.updateUser = function(jsonDATA, callback) {
 	(!jsonDATA.controlleddevice3 ? '' : '<device>' + jsonDATA.controlleddevice3 + '</device>') +
 	(!jsonDATA.controlleddevice4 ? '' : '<device>' + jsonDATA.controlleddevice4 + '</device>') +
 	(!jsonDATA.controlleddevice5 ? '' : '<device>' + jsonDATA.controlleddevice5 + '</device>') +
+	(!jsonDATA.controlleddevice6 ? '' : '<device>' + jsonDATA.controlleddevice6 + '</device>') +
+	(!jsonDATA.controlleddevice7 ? '' : '<device>' + jsonDATA.controlleddevice7 + '</device>') +
+	(!jsonDATA.controlleddevice8 ? '' : '<device>' + jsonDATA.controlleddevice8 + '</device>') +
+	(!jsonDATA.controlleddevice9 ? '' : '<device>' + jsonDATA.controlleddevice9 + '</device>') +
 	(!jsonDATA.controlleddevice1 ? '' : '</associatedDevices>') +
 	(!jsonDATA.primaryextension ? '' : '<primaryExtension>') +
 	(!jsonDATA.primaryextension ? '' : '<pattern>' + jsonDATA.primaryextension.split(" ")[0] + '</pattern>') +
@@ -609,7 +616,12 @@ CucmSession.prototype.updateUser = function(jsonDATA, callback) {
 	(!jsonDATA.accesscontrolgroup1 ? '' : '</associatedGroups>') +	
 	(!jsonDATA.controlledprofile1 ? '' : '<associatedRemoteDestinationProfiles>') +
 	(!jsonDATA.controlledprofile1 ? '' : '<remoteDestinationProfile>' + jsonDATA.controlledprofile1 + '</remoteDestinationProfile>') +
+	(!jsonDATA.controlledprofile2 ? '' : '<remoteDestinationProfile>' + jsonDATA.controlledprofile2 + '</remoteDestinationProfile>') +
+	(!jsonDATA.controlledprofile3 ? '' : '<remoteDestinationProfile>' + jsonDATA.controlledprofile3 + '</remoteDestinationProfile>') +
 	(!jsonDATA.controlledprofile1 ? '' : '</associatedRemoteDestinationProfiles>') +
+	(!jsonDATA.cticontrolledprofile1 ? '' : '<ctiControlledDeviceProfiles>') +
+	(!jsonDATA.cticontrolledprofile1 ? '' : '<profileName>' + jsonDATA.cticontrolledprofile1 + '</profileName>') +
+	(!jsonDATA.cticontrolledprofile1 ? '' : '</ctiControlledDeviceProfiles>') +
 	(!jsonDATA.allowcontrolofdevicefromcti ? '' : '<enableCti>' + jsonDATA.allowcontrolofdevicefromcti + '</enableCti>') +
 	(!jsonDATA.digestcredentials ? '' : '<digestCredentials>' + jsonDATA.digestcredentials + '</digestCredentials>') +
 	(!jsonDATA.defaultprofile ? '' : '<phoneProfiles><profileName>' + jsonDATA.defaultprofile + '</profileName></phoneProfiles>') +
@@ -620,20 +632,20 @@ CucmSession.prototype.updateUser = function(jsonDATA, callback) {
 	(!jsonDATA.enablemobilevoiceaccess ? '' : '<enableMobileVoiceAccess>'+jsonDATA.enablemobilevoiceaccess+'</enableMobileVoiceAccess>') +
 	(!jsonDATA.maximumwaittimefordeskpickup ? '' : '<maxDeskPickupWaitTime>' + jsonDATA.maximumwaittimefordeskpickup + '</maxDeskPickupWaitTime>') +
 	(!jsonDATA.remotedestinationlimit ? '' : '<remoteDestinationLimit>'+jsonDATA.remotedestinationlimit+'</remoteDestinationLimit>') +
-	'<passwordCredentials>' +
+	(!jsonDATA.passwordauthenticationrule ? '' : '<passwordCredentials>') +
 	(!jsonDATA.passwordauthenticationrule ? '' : '<pwdCredPolicyName>' + jsonDATA.passwordauthenticationrule + '</pwdCredPolicyName>') +
 	(!jsonDATA.passwordcantchange ? '' : '<pwdCredUserCantChange>' + jsonDATA.passwordcantchange + '</pwdCredUserCantChange>') +
 	(!jsonDATA.passwordmustchangeatnextlogin ? '' : '<pwdCredUserMustChange>' + jsonDATA.passwordmustchangeatnextlogin + '</pwdCredUserMustChange>') +
 	(!jsonDATA.passworddoesnotexpire ? '' : '<pwdCredDoesNotExpire>' + jsonDATA.passworddoesnotexpire + '</pwdCredDoesNotExpire>') +
 	(!jsonDATA.passwordlockedbyadmin ? '' : '<pwdCredLockedByAdministrator>' + jsonDATA.passwordlockedbyadmin + '</pwdCredLockedByAdministrator>') +
-	'</passwordCredentials>' +
-	'<pinCredentials>' +
+	(!jsonDATA.passwordauthenticationrule ? '' : '</passwordCredentials>') +
+	(!jsonDATA.pinauthenticationrule ? '' : '<pinCredentials>') +
 	(!jsonDATA.pinauthenticationrule ? '' : '<pinCredPolicyName>' + jsonDATA.pinauthenticationrule + '</pinCredPolicyName>') +
 	(!jsonDATA.pincantchange ? '' : '<pinCredUserCantChange>' + jsonDATA.pincantchange + '</pinCredUserCantChange>') +
 	(!jsonDATA.pinmustchangeatnextlogin ? '' : '<pinCredUserMustChange>' + jsonDATA.pinmustchangeatnextlogin + '</pinCredUserMustChange>') +
 	(!jsonDATA.pindoesnotexpire ? '' : '<pinCredDoesNotExpire>' + jsonDATA.pindoesnotexpire + '</pinCredDoesNotExpire>') +
 	(!jsonDATA.pinlockedbyadmin ? '' : '<pinCredLockedByAdministrator>' + jsonDATA.pinlockedbyadmin + '</pinCredLockedByAdministrator>') +
-	'</pinCredentials>' +
+	(!jsonDATA.pinauthenticationrule ? '' : '</pinCredentials>') +
 	(!jsonDATA.enableemcc ? '' : '<enableEmcc>' + jsonDATA.enableemcc + '</enableEmcc>') +
 	(!jsonDATA.mlpppassword ? '' : '<mlppPassword>' + jsonDATA.mlpppassword + '</mlppPassword>') +
 	(!jsonDATA.homecluster ? '' : '<homeCluster>'+jsonDATA.homecluster+'</homeCluster>') +
@@ -646,14 +658,12 @@ CucmSession.prototype.updateUser = function(jsonDATA, callback) {
 	(!jsonDATA.homenumber ? '' : '<homeNumber>' + jsonDATA.homenumber + '</homeNumber>') +
 	(!jsonDATA.pagernumber ? '' : '<pagerNumber>' + jsonDATA.pagernumber + '</pagerNumber>') +
 	(!jsonDATA.userprofile ? '' : '<userProfile>' + jsonDATA.userprofile  + '</userProfile>'))
-	//LDAP
-	//(!jsonDATA.userid ? '' : '<ldapDirectoryName>' + jsonDATA.userid + '</ldapDirectoryName>') +
-	// 12.X
-	//(!jsonDATA.enableusertohostconferencenow ? '' : '<enableUserToHostConferenceNow>false</enableUserToHostConferenceNow>') +
-	//(!jsonDATA.attendeesaccesscode ? '' : '<attendeesAccessCode>' +  + '</attendeesAccessCode>') +
-	
-	// <calendarPresence>false</calendarPresence>
-	// Include meeting information in presence(Requires Exchange Presence Gateway to be configured on CUCM IM and Presence server)
+	// 12.0 Only Tags
+	if (this._version.version > 12){
+		(!jsonDATA.enableusertohostconferencenow ? '' : '<enableUserToHostConferenceNow>' + jsonDATA.enableusertohostconferencenow + '</enableUserToHostConferenceNow>') +
+		(!jsonDATA.attendeesaccesscode ? '' : '<attendeesAccessCode>' + jsonDATA.attendeesaccesscode + '</attendeesAccessCode>') +
+		(!jsonDATA.includemeetinginformationinpresence ? '' : '<calendarPresence>' + jsonDATA.includemeetinginformationinpresence + '</calendarPresence>')
+	}
 	
 	var find = 'undefined';
 	var re = new RegExp(find, 'g');

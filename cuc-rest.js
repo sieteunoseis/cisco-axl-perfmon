@@ -1,5 +1,4 @@
 var https = require('https');
-var parseString = require('xml2js').parseString;
 
 function CucGETSession(cucServerUrl, cucUser, cucPassword, method) {
 	this._OPTIONS =  {
