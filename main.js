@@ -690,6 +690,21 @@ module.exports = (version, ipaddress, username, password, method) => {
 			});		
 		});
 	};
+
+	service.getUser = (userid) => {
+		return new Promise((resolve, reject) => {
+			service.cucm.getUser(userid, function (err, response) {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
+					resolve(response);
+				}
+			});
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});		
+		});
+	};
 	
 	service.addDeviceProfile = (jsonDATA) => {
 		return new Promise((resolve, reject) => {
