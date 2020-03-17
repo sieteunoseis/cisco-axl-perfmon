@@ -603,6 +603,7 @@ CucmSession.prototype.updateUser = function(jsonDATA, callback) {
 	(!jsonDATA.controlleddevice7 ? '' : '<device>' + jsonDATA.controlleddevice7 + '</device>') +
 	(!jsonDATA.controlleddevice8 ? '' : '<device>' + jsonDATA.controlleddevice8 + '</device>') +
 	(!jsonDATA.controlleddevice9 ? '' : '<device>' + jsonDATA.controlleddevice9 + '</device>') +
+	(!jsonDATA.controlleddevice10 ? '' : '<device>' + jsonDATA.controlleddevice10 + '</device>') +
 	(!jsonDATA.controlleddevice1 ? '' : '</associatedDevices>') +
 	(!jsonDATA.primaryextension ? '' : '<primaryExtension>') +
 	(!jsonDATA.primaryextension ? '' : '<pattern>' + jsonDATA.primaryextension.split(" ")[0] + '</pattern>') +
@@ -713,7 +714,9 @@ CucmSession.prototype.updateUser = function(jsonDATA, callback) {
 CucmSession.prototype.getUser = function(userid, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:getUser>%s</ns:getUser></soapenv:Body></soapenv:Envelope>'
 	
-	var XML = util.format(XML_ENVELOPE, userid);
+	var XML_BODY = (!userid ? '' : '<userid>' + userid + '</userid>')
+
+	var XML = util.format(XML_ENVELOPE, XML_BODY);
 	var soapBody = Buffer.from(XML);
 	var output = "";
 	var options = this._OPTIONS;
