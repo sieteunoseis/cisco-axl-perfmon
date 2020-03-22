@@ -27,6 +27,22 @@ module.exports = (version, ipaddress, username, password, method) => {
 		});
 	};
 
+	service.getSqlOutput = (SQL) => {
+		return new Promise((resolve, reject) => {
+			SQL = util.format(SQL);
+			service.cucm.query(SQL, function (err, response) {
+				if(response){
+					resolve(Object.keys(response).map(function(_) { return response[_]; }));
+				}else{
+					reject(err)	
+				}	
+			});
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});
+		});
+	};
+
 	service.getSystables = (table) => {
 		return new Promise((resolve, reject) => {
 			SQL = "select nrows,version,ustlowts from systables where tabname='" + table + "'"
