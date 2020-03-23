@@ -34,16 +34,17 @@ CucmSession.prototype.query = function(SQL, callback) {
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']['ns:executeSQLQueryResponse']['return']['row']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		let data = '';
+		res.on('data', (chunk) => {
+			data += chunk;
+		})
+		res.on('end', () => {
+			try {
+				parseString(data, { explicitArray: false, explicitRoot: false }, (err, result) => {
+					if (err) { callback(err['soapenv:Fault']) }
+					else { callback(null, result['soapenv:Body']['ns:executeSQLQueryResponse']['return']['row']); }
+				});
+			} catch (err) { callback(err); }
 		});
 		req.on('error', function(e) {
 			callback(e);
