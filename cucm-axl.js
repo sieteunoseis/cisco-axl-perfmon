@@ -39,16 +39,26 @@ CucmSession.prototype.query = function(SQL, callback) {
 			data += chunk;
 		})
 		res.on('end', () => {
-			try {
+			try {su
 				parseString(data, { explicitArray: false, explicitRoot: false }, (err, result) => {
-					if (err) { callback(err['soapenv:Fault']) }
-					else { callback(null, result['soapenv:Body']['ns:executeSQLQueryResponse']['return']['row']); }
+					if (err) { 
+						callback(err) 
+					}
+					else {
+						if (res.statusCode == 200){
+							callback(null, result['soapenv:Body']['ns:executeSQLQueryResponse']['return']['row']); 
+						}else{
+							callback(result['soapenv:Body']);  
+						}
+					}
+
 				});
 			} catch (err) { callback(err); }
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -232,20 +242,29 @@ CucmSession.prototype.addPhone = function(jsonDATA, callback) {
 
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -425,20 +444,29 @@ CucmSession.prototype.addLine = function(jsonDATA, callback) {
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -555,20 +583,29 @@ CucmSession.prototype.addUser = function(jsonDATA, callback) {
 
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -686,20 +723,29 @@ CucmSession.prototype.updateUser = function(jsonDATA, callback) {
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -727,20 +773,29 @@ CucmSession.prototype.getUser = function(userid, callback) {
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -854,20 +909,29 @@ CucmSession.prototype.addDeviceProfile = function(jsonDATA, callback) {
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -966,20 +1030,29 @@ CucmSession.prototype.addRDP = function(jsonDATA, callback) {
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -1047,20 +1120,29 @@ CucmSession.prototype.addRDI = function(jsonDATA, callback) {
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -1101,20 +1183,29 @@ CucmSession.prototype.addAdvertisedPattern = function(jsonDATA, callback) {
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -1151,20 +1242,29 @@ CucmSession.prototype.addFacInfo = function(jsonDATA, callback) {
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -1304,20 +1404,29 @@ CucmSession.prototype.addSipTrunk = function(jsonDATA, callback) {
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -1391,20 +1500,29 @@ CucmSession.prototype.addTranslationPattern = function(jsonDATA, callback) {
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -1492,20 +1610,29 @@ CucmSession.prototype.addRoutePattern = function(jsonDATA, callback) {
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
@@ -1564,20 +1691,29 @@ CucmSession.prototype.addSipRoutePattern = function(jsonDATA, callback) {
 	
 	var req = https.request(options, function(res) {
 		res.setEncoding('utf8');
-			res.on('data', function(d) {
-				output = output + d;
-				if (output.length == res.headers['content-length']) {
-					try {
-						parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
-							if (err) { callback(err['soapenv:Fault']) }
-							else { callback(null, result['soapenv:Body']); }
-						});
-					} catch (err) { callback(err); }
-				}
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
 		});
-		req.on('error', function(e) {
-			callback(e);
-		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
 	});
 	
 	// use its "timeout" event to abort the request
