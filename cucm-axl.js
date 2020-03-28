@@ -28,7 +28,6 @@ CucmSession.prototype.query = function(SQL, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:executeSQLQuery><sql>%s</sql></ns:executeSQLQuery></soapenv:Body></soapenv:Envelope>';
 	var XML = util.format(XML_ENVELOPE, SQL);
 	var soapBody = Buffer.from(XML);
-	var output = "";
 	var options = this._OPTIONS;
 	options.agent = new https.Agent({ keepAlive: false });
 	
@@ -39,7 +38,7 @@ CucmSession.prototype.query = function(SQL, callback) {
 			data += chunk;
 		})
 		res.on('end', () => {
-			try {su
+			try {
 				parseString(data, { explicitArray: false, explicitRoot: false }, (err, result) => {
 					if (err) { 
 						callback(err) 
