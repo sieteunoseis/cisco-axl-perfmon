@@ -155,7 +155,7 @@ module.exports = (version, ipaddress, username, password, method) => {
 	
 	service.getEndUsers = (userArr) => {
 		return new Promise((resolve, reject) => {
-			SQL = "select userid from enduser where userid in ('" + userArr.toString().replace(/,/g,"','") + "')"
+			SQL = "select userid from enduser where upper(userid) in ('" + userArr.toString().replace(/,/g,"','") + "')"
 			SQL = util.format(SQL);
 			service.cucm.query(SQL, function (err, response) {
 				if (Array.isArray(response)){
@@ -174,7 +174,26 @@ module.exports = (version, ipaddress, username, password, method) => {
 	
 	service.getDeviceName = (deviceArr) => {
 		return new Promise((resolve, reject) => {
-			SQL = "select name from device where name in ('" + deviceArr.toString().replace(/,/g,"','") + "')"
+			SQL = "select name from device where upper(name) in ('" + deviceArr.toString().replace(/,/g,"','") + "')"
+			SQL = util.format(SQL);
+			service.cucm.query(SQL, function (err, response) {
+				if (Array.isArray(response)){
+					resolve(Object.keys(response).map(function(_) { return response[_]['name']; }));
+				}else if(response){
+					resolve([response.name])
+				}else{
+					reject(err);	
+				}
+			});
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});		
+		});
+	};
+
+	service.getRemoteDestinationName = (rdiArr) => {
+		return new Promise((resolve, reject) => {
+			SQL = "select name from remotedestination where upper(name) in ('" + rdiArr.toString().replace(/,/g,"','") + "')"
 			SQL = util.format(SQL);
 			service.cucm.query(SQL, function (err, response) {
 				if (Array.isArray(response)){
