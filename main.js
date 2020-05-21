@@ -191,9 +191,9 @@ module.exports = (version, ipaddress, username, password, method) => {
 		});
 	};
 
-	service.getRemoteDestinationName = (rdiArr) => {
+	service.getRemoteDestination = (rdiArr) => {
 		return new Promise((resolve, reject) => {
-			SQL = "select name from remotedestination where upper(name) in ('" + rdiArr.toString().replace(/,/g,"','") + "')"
+			SQL = "select destination from remotedestinationdynamic where upper(destination) in ('" + rdiArr.toString().replace(/,/g,"','") + "')"
 			SQL = util.format(SQL);
 			service.cucm.query(SQL, function (err, response) {
 				if (Array.isArray(response)){
