@@ -1,13 +1,10 @@
 var util = require("util");
 var cucmsql = require('./cucm-axl');
-var cucRest = require('./cuc-rest');
 var cucmPerfmon = require('./cucm-perfmon');
 
-module.exports = (version, ipaddress, username, password, method) => {
+module.exports = (version, ipaddress, username, password) => {
 	const service = {};
 	service.cucm = cucmsql(version, ipaddress, username, password);
-	service.cucget = cucRest.get(ipaddress, username, password, method);
-	service.cucput = cucRest.put(ipaddress, username, password, method);
 	service.cucmperfmon = cucmPerfmon(ipaddress,username,password)
 	
 	service.getVersion = () => {
@@ -798,38 +795,6 @@ module.exports = (version, ipaddress, username, password, method) => {
 			process.on('uncaughtException', function (err) {
 				reject(err);
 			});		
-		});
-	};
-	
-	service.getCucGet = () => {
-		return new Promise((resolve, reject) => {
-			service.cucget.getCucGet(function (err, response) {
-				if (Array.isArray(response)){
-					resolve(response)
-				}else if(response){
-					resolve(response)
-				}else{
-					reject(err);	
-				}
-			});	
-			process.on('uncaughtException', function (err) {
-				reject(err);
-			});	
-		});
-	};
-	
-	service.addCucPut = (jsonData) => {
-		return new Promise((resolve, reject) => {
-			service.cucput.addCucPut(jsonData,function (err,response) {
-				if (response){
-					resolve(response)
-				}else{
-					reject(err);	
-				}
-			});	
-			process.on('uncaughtException', function (err) {
-				reject(err);
-			});	
 		});
 	};
 
