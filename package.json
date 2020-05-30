@@ -5,16 +5,15 @@
   "main": "main.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sieteunoseis/cisco-axl-rest.git"
+    "url": "git+https://github.com/sieteunoseis/cisco-axl-perfmon.git"
   },
   "author": "Jeremy Worden",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sieteunoseis/cisco-axl-rest/issues"
+    "url": "https://github.com/sieteunoseis/cisco-axl-perfmon/issues"
   },
-  "homepage": "https://github.com/sieteunoseis/cisco-axl-rest#readme",
+  "homepage": "https://github.com/sieteunoseis/cisco-axl-perfmon/#readme",
   "dependencies": {
-    "axios": "^0.19.2",
     "flat": "^5.0.0",
     "https": "^1.0.0",
     "util": "^0.12.1",
