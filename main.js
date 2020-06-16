@@ -168,6 +168,25 @@ module.exports = (version, ipaddress, username, password) => {
 			});		
 		});
 	};
+
+	service.getDNandPartitions = (dnArr) => {
+		return new Promise((resolve, reject) => {
+			SQL = "select n.dnorpattern as DN, rp.name as partition from numplan as n, outer routepartition as rp where rp.pkid = n.fkroutepartition and n.dnorpattern in ('" + dnArr.toString().toUpperCase().replace(/,/g,"','") + "')"
+			SQL = util.format(SQL);
+			service.cucm.query(SQL, function (err, response) {
+				if (Array.isArray(response)){
+					resolve(Object.keys(response).map(function(_) { return response[_]; }));
+				}else if(response){
+					resolve([response])
+				}else{
+					reject(err);	
+				}
+			});
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});		
+		});
+	};
 	
 	service.getDeviceName = (deviceArr) => {
 		return new Promise((resolve, reject) => {
