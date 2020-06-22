@@ -164,7 +164,8 @@ CucmSession.prototype.addPhone = function(jsonDATA, callback) {
 	(!jsonDATA.requireoffpremiselocation ? '' : '<requireOffPremiseLocation>'+jsonDATA.requireoffpremiselocation+'</requireOffPremiseLocation>') +
 	(!jsonDATA.allowixapplicablemedia ? '' : '<allowiXApplicableMedia>'+jsonDATA.allowixapplicablemedia+'</allowiXApplicableMedia>') +
 	'<wifiHotspotProfile>'+jsonDATA.wifihotspotprofile+'</wifiHotspotProfile>' +
-	'<wirelessLanProfileGroup>'+jsonDATA.wirelesslanprofilegroup+'</wirelessLanProfileGroup>')
+	'<wirelessLanProfileGroup>'+jsonDATA.wirelesslanprofilegroup+'</wirelessLanProfileGroup>' +
+	'<enableActivationID>true</enableActivationID>')
 	
 	var XML_SPEEDDIAL_ENVELOPE = '<speeddials>%s</speeddials>';
 	var XML_SPEEDDIAL_BODY = '';

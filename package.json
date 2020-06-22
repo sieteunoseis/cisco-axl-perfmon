@@ -1,6 +1,6 @@
 {
   "name": "cisco-axl-perfmon",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "A Cisco AXL & Perfmon Library",
   "main": "main.js",
   "repository": {
