@@ -808,7 +808,7 @@ module.exports = (version, ipaddress, username, password) => {
 				if (err){
 					reject(err['soapenv:Fault']['faultstring'])
 				}else{
-					resolve(response);
+					resolve(response['ns:listPhoneActivationCodeResponse']['return']['phoneActivationCode']['activationCode']);
 				}
 			});
 			process.on('uncaughtException', function (err) {

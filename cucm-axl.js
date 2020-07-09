@@ -859,7 +859,7 @@ CucmSession.prototype.getPhone = function(name, callback) {
 CucmSession.prototype.listPhoneActivationCode = function(phoneName, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:listPhoneActivationCode>%s</ns:listPhoneActivationCode></soapenv:Body></soapenv:Envelope>'
 	
-	var XML_BODY = (!phoneName ? '' : '<searchCriteria><phoneName>' + phoneName + '</phoneName>/<searchCriteria>')
+	var XML_BODY = (!phoneName ? '' : '<searchCriteria><phoneName>' + phoneName + '</phoneName></searchCriteria><returnedTags><activationCode></activationCode></returnedTags>')
 
 	var XML = util.format(XML_ENVELOPE, XML_BODY);
 	var soapBody = Buffer.from(XML);
