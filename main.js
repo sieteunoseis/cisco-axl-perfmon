@@ -801,6 +801,21 @@ module.exports = (version, ipaddress, username, password) => {
 			});		
 		});
 	};
+
+	service.listPhoneActivationCode = (phoneName) => {
+		return new Promise((resolve, reject) => {
+			service.cucm.listPhoneActivationCode(phoneName, function (err, response) {
+				if (err){
+					reject(err['soapenv:Fault']['faultstring'])
+				}else{
+					resolve(response);
+				}
+			});
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});		
+		});
+	};
 	
 	service.addRDI = (jsonDATA) => {
 		return new Promise((resolve, reject) => {

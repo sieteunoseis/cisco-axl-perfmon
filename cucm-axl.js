@@ -856,6 +856,55 @@ CucmSession.prototype.getPhone = function(name, callback) {
 
 };
 
+CucmSession.prototype.listPhoneActivationCode = function(phoneName, callback) {
+	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:listPhoneActivationCode>%s</ns:listPhoneActivationCode></soapenv:Body></soapenv:Envelope>'
+	
+	var XML_BODY = (!phoneName ? '' : '<searchCriteria><phoneName>' + phoneName + '</phoneName>/<searchCriteria>')
+
+	var XML = util.format(XML_ENVELOPE, XML_BODY);
+	var soapBody = Buffer.from(XML);
+	var output = "";
+	var options = this._OPTIONS;
+	options.agent = new https.Agent({ keepAlive: false });
+	
+	options.headers.SOAPAction += ' listPhoneActivationCode'
+	
+	var req = https.request(options, function(res) {
+		res.setEncoding('utf8');
+		res.on('data', function(d) {
+			output = output + d;
+			if (output.length == res.headers['content-length']) {
+				try {
+					parseString(output, { explicitArray: false, explicitRoot: false }, (err, result) => {
+						if (err) { 
+							callback(err) 
+						}
+						else {
+							if (res.statusCode == 200){
+								callback(null, result['soapenv:Body']); 
+							}else{
+								callback(result['soapenv:Body']);  
+							}
+						}
+					});
+				} catch (err) { callback(err); }
+			}
+		});
+	});
+
+	req.on('error', function(e) {
+		callback(e);
+	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.abort();
+	});
+
+	req.end(soapBody);
+
+};
+
 CucmSession.prototype.addDeviceProfile = function(jsonDATA, callback) {
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/' + this._version.version + '"><soapenv:Header/><soapenv:Body><ns:addDeviceProfile><deviceProfile>%s</deviceProfile></ns:addDeviceProfile></soapenv:Body></soapenv:Envelope>'
 	
