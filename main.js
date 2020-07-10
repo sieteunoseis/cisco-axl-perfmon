@@ -562,7 +562,7 @@ module.exports = (version, ipaddress, username, password) => {
 			SQL = util.format(SQL);
 			service.cucm.query(SQL, function (err, response) {
 				if(response){
-					resolve(Object.keys(response).map(function(_) { return response[_]; }));
+					resolve(Object.keys(response).map(function(_) { return response[_]['name']; }));
 				}else{
 					reject(err);
 				}
