@@ -555,6 +555,23 @@ module.exports = (version, ipaddress, username, password) => {
 			});		
 		});
 	};
+
+	service.getActivationIdPhones = () => {
+		return new Promise((resolve, reject) => {
+			SQL = "select p.name from defaults as d,typemodel as p where d.tkmodel = p.enum and d.preferactcodeoverautoreg = 't'"
+			SQL = util.format(SQL);
+			service.cucm.query(SQL, function (err, response) {
+				if(response){
+					resolve(Object.keys(response).map(function(_) { return response[_]; }));
+				}else{
+					reject(err);
+				}
+			});
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});		
+		});
+	};
 	
 	service.getPhoneTemplateConfig = () => {
 		return new Promise((resolve, reject) => {
