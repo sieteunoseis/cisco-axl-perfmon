@@ -823,7 +823,7 @@ module.exports = (version, ipaddress, username, password) => {
 		return new Promise((resolve, reject) => {
 			service.cucm.listPhoneActivationCode(phoneName, function (err, response) {
 				if (err){
-					reject(err['soapenv:Fault']['faultstring'])
+					reject(err)
 				}else{
 					resolve(response['ns:listPhoneActivationCodeResponse']['return']['phoneActivationCode']['activationCode']);
 				}
