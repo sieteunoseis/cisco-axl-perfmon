@@ -934,6 +934,21 @@ module.exports = (version, ipaddress, username, password) => {
 			});	
 		});
 	};
+
+	service.closePerfmonSessionData = (sessionHandle) => {
+		return new Promise((resolve, reject) => {
+			service.cucmperfmon.perfmonCloseSession(sessionHandle,function (err,response) {
+				if (response){
+					resolve(response)
+				}else{
+					reject(err);	
+				}
+			});	
+			process.on('uncaughtException', function (err) {
+				reject(err);
+			});	
+		});
+	};
 	
 	return service;
 };

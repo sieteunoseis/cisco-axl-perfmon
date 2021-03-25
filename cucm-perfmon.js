@@ -66,13 +66,12 @@ CucmPerfmonSession.prototype.perfmonCollectCounterData = function(host,object,ca
 	
 	// use its "timeout" event to abort the request
 	req.on('timeout', () => {
-		req.abort();
+		req.destroy();
 	});
 
 	req.end(soapBody);
 
 };
-
 
 CucmPerfmonSession.prototype.perfmonOpenSession = function(callback) {
 	var XML = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="http://schemas.cisco.com/ast/soap">' +
@@ -113,7 +112,7 @@ CucmPerfmonSession.prototype.perfmonOpenSession = function(callback) {
 	
 	// use its "timeout" event to abort the request
 	req.on('timeout', () => {
-		req.abort();
+		req.destroy();
 	});
 
 	req.end(soapBody);
@@ -164,30 +163,33 @@ CucmPerfmonSession.prototype.perfmonListInstance = function(host,object,callback
 	
 	// use its "timeout" event to abort the request
 	req.on('timeout', () => {
-		req.abort();
+		req.destroy();
 	});
 
 	req.end(soapBody);
 
 };
 
-CucmPerfmonSession.prototype.perfmonAddCounter = function(sessionHandle,counterName,callback) {
+CucmPerfmonSession.prototype.perfmonAddCounter = function(sessionHandle,counterArray,callback) {
+	// Let's build counter array
+	var counterStr;
+
+	counterArray.forEach((element) => {
+		counterStr += '<soap:Counter><soap:Name>' + element + '</soap:Name></soap:Counter>'
+	})
+
 	// The user needs to make sure they are sending safe SQL to the communications manager.
 	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="http://schemas.cisco.com/ast/soap">' +
 		'<soapenv:Header/>' +
 		'<soapenv:Body>' +
 	   	'<soap:perfmonAddCounter>' +
 		  '<soap:SessionHandle>%s</soap:SessionHandle>' +
-		  '<soap:ArrayOfCounter>' +
-			 '<soap:Counter>' +
-				'<soap:Name>%s</soap:Name>' +
-			 '</soap:Counter>' +
-		  '</soap:ArrayOfCounter>' +
+		  '<soap:ArrayOfCounter>' + counterStr + '</soap:ArrayOfCounter>' +
 	   	'</soap:perfmonAddCounter>' +
 		'</soapenv:Body>' +
  		'</soapenv:Envelope>'
 		 
-	var XML = util.format(XML_ENVELOPE, sessionHandle, counterName);
+	var XML = util.format(XML_ENVELOPE, sessionHandle);
 
 	var soapBody = Buffer.from(XML);
 	var output = "";
@@ -220,7 +222,7 @@ CucmPerfmonSession.prototype.perfmonAddCounter = function(sessionHandle,counterN
 	
 	// use its "timeout" event to abort the request
 	req.on('timeout', () => {
-		req.abort();
+		req.destroy();
 	});
 
 	req.end(soapBody);
@@ -271,7 +273,58 @@ CucmPerfmonSession.prototype.perfmonCollectSessionData = function(sessionHandle,
 	
 	// use its "timeout" event to abort the request
 	req.on('timeout', () => {
-		req.abort();
+		req.destroy();
+	});
+
+	req.end(soapBody);
+
+};
+
+CucmPerfmonSession.prototype.perfmonCloseSession = function(sessionHandle, callback) {
+	// The user needs to make sure they are sending safe SQL to the communications manager.
+	var XML_ENVELOPE = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="http://schemas.cisco.com/ast/soap">' +
+		'<soapenv:Header/>' +
+		'<soapenv:Body>' +
+	   	'<soap:perfmonCloseSession>' +
+		  '<soap:SessionHandle>%s</soap:SessionHandle>' +
+	   	'</soap:perfmonCloseSession>' +
+		'</soapenv:Body>' +
+ 		'</soapenv:Envelope>'
+		 
+	var XML = util.format(XML_ENVELOPE, sessionHandle);
+
+	var soapBody = Buffer.from(XML);
+	var output = "";
+	var options = this._OPTIONS;
+	options.headers.SOAPAction = "perfmonCloseSession"
+	options.agent = new https.Agent({ keepAlive: false });
+	
+	var req = https.request(options, function(res) {
+		if (res.statusCode == 200){
+			res.setEncoding('utf8');
+			res.on('data', function(d) {
+				output = output + d;
+			});
+			res.on('end', function() {
+				parseString(output, { explicitArray: false, explicitRoot: false, strict: false }, function (err, result) {
+					try {
+						callback(null, result['SOAPENV:BODY'])    	
+					} catch(ex) {
+						callback(ex)
+					}
+				});
+			});
+		}else{
+			callback('Status Code: ' + res.statusCode)
+		}
+		req.on('error', function(e) {
+			callback(e);
+		});
+	});
+	
+	// use its "timeout" event to abort the request
+	req.on('timeout', () => {
+		req.destroy();
 	});
 
 	req.end(soapBody);

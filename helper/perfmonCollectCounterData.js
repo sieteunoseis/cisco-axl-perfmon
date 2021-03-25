@@ -7,7 +7,7 @@ var settings = {
   cucmpass: "h0mel@b",
 };
 
-var perfmonObject = 'Processor'
+var perfmonObject = 'Process'
 
 var service = axlModule(settings.version, settings.cucmip, settings.cucmuser, settings.cucmpass);
 
@@ -16,7 +16,7 @@ var ciscoPerfmonListInstance = service.listPerfmonInstance(settings.cucmip,perfm
 });
 
 ciscoPerfmonListInstance.then(function(result) {
-  console.log('ciscoPerfmonListInstance: ' + result) // "Some User token"
+  console.log('ciscoPerfmonListInstance: ' + JSON.stringify(result))
 })
 
 var perfmonData = service.getPerfmonCounterData(settings.cucmip,perfmonObject).catch(err => {
@@ -24,6 +24,6 @@ var perfmonData = service.getPerfmonCounterData(settings.cucmip,perfmonObject).c
 });
 
 perfmonData.then(function(result) {
-    console.log('perfmonData: ' + JSON.stringify(result)) // "Some User token"
+    console.log('perfmonData: ' + JSON.stringify(result))
 })
 
