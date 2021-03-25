@@ -204,7 +204,7 @@ CucmPerfmonSession.prototype.perfmonAddCounter = function(sessionHandle,counterN
 			res.on('end', function() {
 				parseString(output, { explicitArray: false, explicitRoot: false, strict: false }, function (err, result) {
 					try {
-						callback(null, result)    	
+						callback(null, result['SOAPENV:BODY']['NS1:PERFMONADDCOUNTERRESPONSE'])    	
 					} catch(ex) {
 						callback(ex)
 					}
