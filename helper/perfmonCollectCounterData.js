@@ -2,9 +2,9 @@ const axlModule = require("../main.js");
 
 var settings = {
   version: "12.5",
-  cucmip: "192.168.1.230",
+  cucmip: "10.10.10.10",
   cucmuser: "administrator",
-  cucmpass: "h0mel@b",
+  cucmpass: "password",
 };
 
 var perfmonObject = 'Process'
